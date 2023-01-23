@@ -1,0 +1,68 @@
+% Package for flexible glossaries; I had issues with nomencl and this will allow more centralized configuration anyway. Also supports acronyms, though I am not yet transitioning those yet.
+% configuring glossaries-extra to use bib2gls and also provide accessibility support just in case you want to use it for symbols or whatever that wouldn't screen-read right; treating undefined glossary entries as warnings to match standard missing-reference stuff is automatically integrated into record because of how bib2gls works.
+% important: this must come AFTER hyperref, babel, polyglossia, inputenc and fontenc!
+\usepackage[record,accsupp, % accessibility support
+  postdot,% full stop after description; may be better to use post-description-dot per resource entry
+  nostyles,% don't load default style packages; this is the recommendation
+  % load glossaries-extra-stylemods.sty and tree, bookindex, long/list for abbrevs
+  stylemods={tree,bookindex,long,list}, % index(group) doesn't fail when you don't include tree but latexmk errored out due to lack of stabilization
+  style=indexgroup, % default style
+  prefix, % for a(n) configuration
+  abbreviations,symbols,index,numbers % want these glossaries
+]{glossaries-extra}
+
+\glsxtrsetgrouptitle{element}{Elements}
+\glsxtrsetgrouptitle{function}{Functions}
+\glsxtrsetgrouptitle{relation}{Relations}
+\glsxtrsetgrouptitle{type}{Types}
+\glsxtrsetgrouptitle{variable}{Variables}
+
+\GlsXtrLoadResources[
+  src=glossaries/terms
+]
+\GlsXtrLoadResources[
+  src=glossaries/numbers, % I actually want to sort off the labels for these so no fallback needed
+  type=numbers % no need for field-aliases={value=user1} as I'm putting the numbers in the symbol field anyway
+]
+\GlsXtrLoadResources[
+  src=glossaries/elements,
+  group=element,
+  type=symbols,
+  symbol-sort-fallback=name, % use the name instead of label for sorting
+  break-at=none % prevents non-letters being discarded when sorting
+]
+\GlsXtrLoadResources[
+  src=glossaries/functions,
+  group=function,
+  type=symbols, % Not sure if functions should really be treated as symbols
+  symbol-sort-fallback=name,
+  break-at=none
+]
+\GlsXtrLoadResources[
+  src=glossaries/relations,
+  group=relation,
+  type=symbols,
+  symbol-sort-fallback=name,
+  break-at=none
+]
+\GlsXtrLoadResources[
+  src=glossaries/types,
+  group=type,
+  type=symbols, % I thought this was unnecessary when using @symbol but it looks like category and type are not the same thing
+  symbol-sort-fallback=name,
+  break-at=none,
+  field-aliases={format=user1}
+]
+\GlsXtrLoadResources[
+  src=glossaries/variables,
+  group=variable,
+  type=symbols, % Not sure if variables should really be treated as symbols
+  symbol-sort-fallback=name,
+  break-at=none
+]
+
+\setabbreviationstyle{long-short-desc} % for getting full info in (alt)tree glossary
+\GlsXtrLoadResources[
+  src=glossaries/abbrevs,
+  type=abbreviations
+]

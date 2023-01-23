@@ -1,0 +1,79 @@
+@symbol{step,
+  name = {\ensuremath{\operatorname{\textproc{step}}}},
+  description = {General form for a step function (used by the Floyd-style and Hoare-style works)},
+  parent = {state}
+}
+@symbol{run,
+  name = {\ensuremath{\operatorname{\textproc{runUntil}}}},
+  description = {A function that performs symbolic execution until the supplied halting condition holds},
+  parent = {state}
+}
+
+%% Hoare-style work
+@symbol{sextend,
+  name = {\ensuremath{\operatorname{sxtnd}}},
+  description = {Bitvector sign extension}
+}
+@symbol{prop,
+  name = {\ensuremath{\operatorname{{prop}}}},
+  description = {Invariant propagation function for Hoare-style work}
+}
+
+%% HG work
+@index{memory-model, name = {memory model}}
+@symbol{eval,
+  name = {\ensuremath{\operatorname{eval}}},
+  description = {Expression evaluation function; maps a possibly-state-dependent expression to a constant expression}
+}
+@symbol{fetch,
+  name = {\ensuremath{\operatorname{fetch}}},
+  description = {Disassembles the instruction at the supplied address},
+  prefix = {a~}
+}
+@symbol{pred,
+  name = {\ensuremath{\operatorname{pred}}},
+  description = {Returns the predicate for the supplied state},
+  parent = {state}
+}
+@symbol{sound,
+  name = {\ensuremath{\operatorname{sound}}},
+  description = {The supplied \ac{hg} is sound with respect to the supplied binary}
+}
+@symbol{step-hg,
+  name = {\ensuremath{\operatorname{\textproc{step}}_\Sigma}},
+  description = {The symbolic state step function for \ac{hg} generation},
+  parent = {state}
+}
+% Not sure the \operatorname is really useful here
+@symbol{step-hg-semantics,
+  name = {\ensuremath{\operatorname\tau}},
+  description = {The instruction-semantics-modeling inner step function for \ac{hg} generation},
+  parent = {state}
+}
+@symbol{insertM,
+  name = {\ensuremath{\operatorname{ins}}},
+  description = {Inserts the first memory tree argument into the second},
+  parent = {memory-model}
+}
+@symbol{explore,
+  name = {\ensuremath{\operatorname{\textproc{explore}}}},
+  description = {The base function of the \ac{hg} extraction algorithm}
+}
+
+%% EICFG work
+@index{stack, name={Stack Operations}}
+@symbol{push,
+  name = {\ensuremath{\operatorname{push}}},
+  description = {Places the supplied element on the top of the supplied stack},
+  parent = {stack}
+}
+@symbol{pop,
+  name = {\ensuremath{\operatorname{pop}}},
+  description = {Removes the element at the top of the supplied stack},
+  parent = {stack}
+}
+@symbol{peek,
+  name = {\ensuremath{\operatorname{peek}}},
+  description = {Returns the element at the top of the supplied stack},
+  parent = {stack}
+}

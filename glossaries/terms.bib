@@ -1,0 +1,185 @@
+@entry{sel4,
+  name = {seL4},
+  description = {A secure, heavily-tested and verified microkernel}
+}
+
+@index{assembly}
+@entry{arm,
+  name = {ARM},
+  description = {The \ac{risc} \ac{isa} developed by Arm Ltd. Comes in both 32-bit and 64-bit forms},
+  parent = {assembly},
+  prefix = {an~}
+}
+@entry{x86,
+  name = {x86},
+  description = {The family of \ac{cisc} \acp{isa} developed by Intel; in common parlance, refers to the 32-bit version},
+  parent = {assembly},
+  prefix = {an~}
+}
+@entry{arch,
+  name = {x86-64},
+  description = {The 64-bit version of the x86 \ac{isa}},
+  parent = {assembly},
+  seealso = {x86},
+  prefix = {an~}
+}
+@entry{amd64,
+  name = {AMD64},
+  alias = {arch},
+  parent = {assembly},
+  prefix = {an~}
+}
+@entry{x86_64,
+  name = {x86\_64},
+  alias = {arch},
+  parent = {assembly},
+  prefix = {an~}
+}
+@entry{i64,
+  name = {Intel 64},
+  alias = {arch},
+  parent = {assembly},
+  prefix = {an~}
+}
+@index{x64,   see={arch}, parent={assembly}}
+@entry{80286,
+  name = {80286},
+  description = {An older iteration of the x86 \ac{isa}},
+  parent = {assembly},
+  seealso = {arch},
+  prefix = {an~}
+}
+@entry{8080,
+  name = {Intel 8080},
+  description = {An even older chipset than the 80286},
+  parent = {assembly},
+  seealso = {arch},
+  prefix = {an~}
+}
+@entry{space8080,
+  name = {SPACE-8080},
+  description = {A verifiable subset of the Intel 8080 \ac{isa}},
+  parent = {assembly},
+  seealso = {8080}
+}
+@entry{riscv,
+  name = {RISC-V},
+  description = {An open standard \ac{isa} based on established \ac{risc} principles},
+  parent = {assembly}
+}
+@entry{mc68020,
+  name = {MC68020},
+  description = {A 32-bit microprocessor produced by Motorola},
+  parent = {assembly}
+}
+
+% TODO: not sure how best to represent this one, usually index levels leave out the top word but I'm not sure how to do that with glossaries
+@index{hoare, name={Hoare}}
+@entry{hoare-logic,
+  name = {Hoare logic},
+  description = {An axiomatic framework for reasoning over the semantics of computer programs \autocite{hoare1969axiomatic}},
+  prefix = {a~},
+  parent = {hoare}
+}
+
+
+@index{formal, name={Formal Methods}}
+@entry{isabelle,
+  name = {Isabelle},
+  description = {A widely used interactive theorem prover implemented in the functional programming language \ac{ml} with a wide variety of useful libraries and strong support for syntactic and the construction of \acp{dsl}. Supports many different logics, but the most commonly used one is \ac{hol}},
+  parent = {formal}
+}
+
+@entry{hol4,
+  name = {HOL4},
+  description = {A theorem prover that uses \ac{hol}},
+  parent = {formal}
+}
+
+@entry{coq,
+  name = {Coq},
+  description = {A generic interactive theorem prover},
+  parent = {formal}
+}
+
+@entry{z3,
+  name = {Z3},
+  description = {\Iac{smt} solver made by Microsoft. Its support for bitvector operations is very useful},
+  parent = {formal}
+}
+
+%TODO:should be a group?
+@index{language,
+  name = {Programming Language}
+}
+@entry{c,
+  name = {C},
+  description = {A classic low-level programming language},
+  seealso = {cpp},
+  parent = {language}
+}
+
+%% C++ formatting similar to https://isocpp.org/wiki/faq/misc-environmental-issues#latex-macros but nicer and with the plus signs slightly more defined than \cpluspluslogo from the texlogos package
+@entry{cpp,
+  name = {C\nolinebreak[4]\hspace{-.05em}\raisebox{.4ex}{\relsize{-1}{\textbf{++}}}},
+  description = {A successor language of sorts to C, providing a lot more higher-level features while still being a relatively low-level language},
+  seealso = {c},
+  parent = {language}
+}
+
+@entry{fortran,
+  name = {Fortran},
+  description = {A classic language for mathematical computing and optimization},
+  parent = {language}
+}
+
+@entry{java,
+  name = {Java},
+  descripton = {A common high-level programming language designed to be run on many platforms using a bytecode interpreter, the \ac{jvm}}
+}
+
+@entry{llvm,
+  name = {LLVM},
+  description = {A project that provides an alternative to GCC for optimizing C/C++ compilation},
+  seealso = {c,cpp,gcc}
+}
+
+@entry{lldb,
+  name = {LLDB},
+  description = {The debugger used by the LLVM project},
+  seealso = {llvm}
+}
+
+@entry{floyd,
+  name = {Floyd-style},
+  description = {\todo\dots},
+  prefix = {a~},
+  seealso = {hoare}
+}
+@entry{hoare,
+  name = {Hoare-style},
+  description = {\todo\dots},
+  prefix = {a~},
+  seealso = {floyd}
+}
+
+@entry{memuse,
+  name = {memory usage},
+  description = {A description or representation of the memory read and written by a program. The program is guaranteed to not \emph{use} any memory outside those regions. To ensure correctness, it must be \emph{overapproximative}}
+}
+
+@entry{xen,
+  name = {the Xen Project},
+  description = {A fully-featured, production-capable hypervisor}
+}
+
+@entry{strata,
+  name = {\textsc{Strata}},
+  description = {A machine learning tool to extract instruction semantics developed by \textcite{heule2016stratified}},
+  seealso = {arch}
+}
+
+@entry{mcsquare,
+  name = {\textsc{[mc]square}},
+  description = {A model checker for microprocessors implemented in Java}
+}
