@@ -5,11 +5,16 @@
   postdot,% full stop after description; may be better to use post-description-dot per resource entry
   nostyles,% don't load default style packages; this is the recommendation
   % load glossaries-extra-stylemods.sty and tree, bookindex, long/list for abbrevs
-  stylemods={tree,bookindex,long,list}, % index(group) doesn't fail when you don't include tree but latexmk errored out due to lack of stabilization
+%  stylemods={tree,bookindex,long,list}, % index(group) doesn't fail when you don't include tree but latexmk errored out due to lack of stabilization
   style=indexgroup, % default style
   prefix, % for a(n) configuration
   abbreviations,symbols,index,numbers % want these glossaries
 ]{glossaries-extra}
+
+\renewcommand*\glsprefixsep~ % I don't use other kinds of prefixes so this is fine
+
+\glsxtrsetgrouptitle{hg}{\Glsxtrshortpl{hg}}
+\glsxtrsetgrouptitle{eicfg}{\Glsxtrshortpl{eicfg}}
 
 \glsxtrsetgrouptitle{element}{Elements}
 \glsxtrsetgrouptitle{function}{Functions}
@@ -17,9 +22,7 @@
 \glsxtrsetgrouptitle{type}{Types}
 \glsxtrsetgrouptitle{variable}{Variables}
 
-\GlsXtrLoadResources[
-  src=glossaries/terms
-]
+\GlsXtrLoadResources[src=glossaries/terms]
 \GlsXtrLoadResources[
   src=glossaries/numbers, % I actually want to sort off the labels for these so no fallback needed
   type=numbers % no need for field-aliases={value=user1} as I'm putting the numbers in the symbol field anyway
@@ -61,8 +64,28 @@
   break-at=none
 ]
 
-\setabbreviationstyle{long-short-desc} % for getting full info in (alt)tree glossary
+%% Abbreviation stuff, fancy fancy
+\newglossary*{abbrevdescs}{Abbreviations with Descriptions}
+
+% To emulate package acro's cite-on-first-use behavior; not sure how this will interact with \glsxtrshort, \glsfmtshort, etc.
+\glsdefpostlink{abbreviation}{%
+  \glsxtrifwasfirstuse{%
+    \ifglshasfield{useri}\glslabel{%
+      ~\autocite\glscurrentfieldvalue%
+    }{}%
+  }{}%
+}
 \GlsXtrLoadResources[
   src=glossaries/abbrevs,
-  type=abbreviations
+  type=abbreviations,
+  field-aliases={cite=user1},
+  match={description} % Only want the abbrevs without descriptions here!
+]
+% For getting full info in altlist glossary
+\setabbreviationstyle{long-short-desc}
+\GlsXtrLoadResources[
+  src=glossaries/abbrevs,
+  type=abbrevdescs,
+  field-aliases={cite=user1},
+  not-match={description}
 ]
