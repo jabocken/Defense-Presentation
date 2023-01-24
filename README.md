@@ -1,1 +1,3 @@
 You will probably need at least TeX Live 2022 to build this presentation. Also, not all components of the presentation are easily buildable by some TeX GUIs; specifically, the biber-based bibliography and the glossaries. The included makefile is configured to use `latexmk` to produce PDFs, which will repeat generation until all components have stabilized and automatically calls `biber` as necessary. I have also included a local `.latexmkrc` file with the appropriate info to build glossaries and, if necessary, nomenclature.
+
+You will also need the Hokie theme for `beamer`: https://github.com/bhilburn/LaTeX-beamer-Hokie
