@@ -1,0 +1,71 @@
+\usepackage{listings}              % For code formatting
+
+\lstset{
+  language=[11]C++, % Defaulting to C++11; maybe fall back to defaulting to Isabelle?
+  escapechar=|, % if you want to embed LaTeX stuff in the source; escapeinside={A}{B} is more flexible. Also not good for code with | and || as OR.
+  tabsize=2, %set tabs to two spaces
+  basicstyle=\ttfamily, % typewriter type for code
+  keywordstyle=\bfseries\color{blue}, % bold blue keywords
+  commentstyle=\color{gray},
+  stringstyle=\color{brown},
+  showstringspaces=false,
+  showlines=false, %get rid of trailing white lines
+  emptylines=1, %allow blank line
+  breaklines=true %get rid of overflow lines and enter \n
+}
+
+\lstdefinelanguage{Isabelle}{
+  keywords={assumes,shows,and,imports,begin,end,infix,where,fixes,uses,conclusion,in,for},
+  keywords=[2]{section,subsection,theory,lemmas,lemma,proof,hence,using,moreover,have,by,ultimately,qed,unfolding,definition,notation,typedef,setup_lifting,lift_definition,bnf,next,then,also,locale,declare,text,txt,from,with,let,finally,interpretation,abbreviation,method,function,fun,value},
+  keywords=[3]{fix,assume,show,obtain,thus,define,case,+,?},
+  keywords=[4]{simp,add,split,intro,arbitrary,rule,elim},
+  keywords=[5]{apply,done},
+  keywordstyle={\bfseries\color{teal}},
+  keywordstyle=[2]{\bfseries\color{blue}},
+  keywordstyle=[3]{\bfseries\color{cyan}},
+  keywordstyle=[4]{\color{magenta}},
+  keywordstyle=[5]{\bfseries\color{red}},
+  keepspaces, % So literate mappings don't gobble the following space
+  literate= % For Isabelle notation
+  {\\<times>}{$\times$}1
+  {\\<open>}{\guilsinglleft}1
+  {\\<close>}{\guilsinglright}1
+  {\\<sigma>}{$\sigma$}1
+  {\\<triangleq>}{$\triangleq$}1
+  {\\<and>}{$\wedge$}1
+  {\\<forall>}{$\forall$}1
+  {\\<langle>}{$\langle$}1
+  {\\<rangle>}{$\rangle$}1
+  {\\<^sub>0}{$_0$}1
+  {\\<longrightarrow>}{$\longrightarrow$}2
+}
+
+
+\lstdefinelanguage
+[x64]{Assembler}     % add an "x64" dialect of Assembler
+[x86masm]{Assembler} % based on the "x86masm" dialect
+% with these extra keywords:
+{morecomment=[l]{\#},
+  morekeywords={CDQE,CQO,CMPSQ,CMPXCHG16B,JRCXZ,LODSQ,MOVSXD,% will add more insts as needed
+    POPFQ,PUSHFQ,SCASQ,STOSQ,IRETQ,RDTSCP,SWAPGS,%
+    MOVAPD,MOVDQA,%
+    ENDBR64,%
+    dil,eflags,rflags,cpuid,%
+    rax,rdx,rcx,rbx,rsi,rdi,rsp,rbp,rip,%
+    r8,r8d,r8w,r8b,r9,r9d,r9w,r9b,%
+    r10,r10d,r10w,r10b,r11,r11d,r11w,r11b,%
+    r12,r12d,r12w,r12b,r13,r13d,r13w,r13b,%
+    r14,r14d,r14w,r14b,r15,r15d,r15w,r15b,%
+    xmm0,xmm1,xmm2,xmm3,xmm4,xmm5,xmm6,xmm7,xmm8,xmm9,xmm10,xmm11,xmm12,xmm13,xmm14,xmm15%
+}} % etc.
+\lstdefinestyle{x64}{
+  language=[x64]{Assembler} % easiest to use x64 this way
+}
+\lstdefinestyle{Haskell}{
+  language=Haskell,
+  keepspaces=true
+}
+
+\newcommand*\inlineasm[1]{\lstinline[style=x64]|#1|}
+\newcommand*\inlinehaskell[1]{\lstinline[style=Haskell]|#1|}
+\newcommand*\inlineisabelle[1]{\lstinline[language=Isabelle]|#1|}

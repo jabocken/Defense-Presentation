@@ -1,0 +1,16 @@
+% Beamer setup
+\usetheme{Hokie}
+\logo{\includegraphics[width=1.5cm]{vt-logo}}
+
+\hypersetup{pdfstartview={Fit}} % fits the presentation to the window when first displayed
+\AtBeginSection{
+  \begin{frame}<beamer>
+    \frametitle{Outline}
+    \tableofcontents[currentsection]
+  \end{frame}
+}
+
+\newcommand*\blockmath[1]{%
+  \vspace*{-\baselineskip}%
+  \setlength\belowdisplayshortskip{0pt}%
+  \[#1\]} % sometimes want a block starting with math, but starting paragraphs with math makes extra space

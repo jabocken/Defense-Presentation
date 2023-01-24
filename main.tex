@@ -9,117 +9,29 @@
 \usepackage{suffix}                % For defining command versions with *s
 \usepackage[en-US]{datetime2}      % For \DTMdate, etc.
 
-\usepackage{mathtools}             % For \coloneqq
-\usepackage{siunitx}
 \usepackage{outlines}              % allows usage of \1, \2, \3, \4 to represent list nesting
-\usepackage{listings}              % For code formatting
 \usepackage{epigraph}              % For epigraphs
-\usepackage{wasysym}               % For \wasylozenge
-\usepackage[epsilon]{backnaur}     % For BNF diagrams; a (more complex?) alternative is the syntax package
-\usepackage{bussproofs}            % for prooftree environment
 
 \usepackage{booktabs}              % For nicer-looking tables
 \usepackage{makecell}              % For table heading cells and cells with line breaks
 \usepackage{threeparttable}        % For tables with notes
 
-\usepackage{tikz}
 \usepackage[
   citestyle=authoryear-icomp, % Author-year style better for bibliographies
   maxcitenames=2, % for table
   maxbibnames=99 % Avoids `et al.` in bibliography
 ]{biblatex} % if issues occur with utf8 inputenc, try the safeinputenc option
 
+\addbibresource{bibliography.bib}
+
+\input{preamble/beamer}
 \input{preamble/glossaries}
+\input{preamble/listingsetup}
+\input{preamble/math}
+\input{preamble/tikz}
 \input{preamble/title}
 
-\graphicspath{{figures/}}
-
-\usetikzlibrary{shapes,arrows.meta}
-\usetikzlibrary{graphs}            % dot-style graph shorthands (not quite as compactible as dot language, though)
-\usetikzlibrary{quotes}            % needed for quoted edge labels (only in graphs?)
-\usetikzlibrary{positioning}       % For relative (=of) node positioning
-
-\lstset{ % command to set programming language parameter(s)
-  tabsize=2, %set tabs to two spaces
-  basicstyle=\ttfamily, % typewriter type for code
-  showstringspaces=false,
-  showlines=false, %get rid of trailing white lines
-  emptylines=1, %allow blank line
-  breaklines=true %get rid of overflow lines and enter \n
-}
-
 \newcommand{\todo}[1]{{\bfseries\color{purple}#1}} % Allowing paragraphs in todos
-
-%% Math commands
-\newcommand*\blockmath[1]{%
-  \vspace*{-\baselineskip}%
-  \setlength\belowdisplayshortskip{0pt}%
-\[#1\]} % sometimes want a block starting with math, but starting paragraphs with math makes extra space
-
-% Memory stuff!
-\newcommand*\region[2]{[#1,#2]}
-\newcommand*\readmem[2]{\ast\region{#1}{#2}}
-\WithSuffix{\newcommand*}\readmem*[1]{\ast#1}
-\newcommand*\readmemS[3]{#1\vdash\readmem{#2}{#3}}
-\WithSuffix{\newcommand*}\readmemS*[2]{#1\vdash\readmem*{#2}}
-\newcommand*\htriple[3]{\{#1\}#2\{#3\}}
-\WithSuffix{\newcommand*}\htriple*[4]{\{#1\}#2\{#3{;}#4\}}
-\newcommand\enclosed\sqsubseteq
-\newcommand\separate\bowtie
-\DeclareMathOperator{\seps}{\bigotimes}
-
-% Bots
-\newcommand{\infloop}{\bot_\mathrm{NT}}
-\newcommand{\err}{\bot_\mathrm{E}}
-
-% Symbolic execution
-\DeclareMathOperator{\run}{run}
-\DeclareMathOperator{\loc}{loc}
-
-% Registers and the like
-\newcommand*\var[1]{\mathit{#1}}
-\newcommand\rspo{\var{rsp}_0}
-\newcommand\retaddr{\mathtt{ret\_addr}}
-
-\newcommand\mathrsp{\text{\inlineasm{rsp}}}
-\newcommand\mathrbp{\text{\inlineasm{rbp}}}
-
-% Syntactic Control Flow
-\newcommand\ind[1]{\hspace{#1}}
-\newcommand*\Block[2]{\mathtt{#1\texttt{->}#2}}
-\WithSuffix\newcommand\Block*[3]{#1~#2~#3}
-\newcommand*\ASeq{\mathrel{\texttt{;}}}
-\WithSuffix{\newcommand*}\ASeq*{\texttt{;}}
-\newcommand*\AWhile{\texttt{While}}
-\newcommand*\ADo{\texttt{Do}}
-\newcommand*\AOd{\texttt{Od}}
-\newcommand*\AIf{\texttt{If}}
-\newcommand*\AThen{\texttt{Then}}
-\newcommand*\AElse{\texttt{Else}}
-\newcommand*\AFi{\texttt{Fi}}
-\newcommand*\ABB{\texttt{Block}}
-\newcommand*\ASkip{\texttt{Skip}}
-\newcommand*\ACall{\texttt{Call}}
-\newcommand*\ABreak{\texttt{Break}}
-\newcommand*\AContinue{\texttt{Continue}}
-\newcommand*\AWhileResume{\texttt{Resume}}
-
-\DeclareMathOperator{\execblock}{\textsc{symbExec}}
-\DeclareMathOperator{\usage}{preserve}
-
-% Beamer setup
-\usetheme{Hokie}
-\logo{\includegraphics[width=1.5cm]{vt-logo}}
-
-\hypersetup{pdfstartview={Fit}} % fits the presentation to the window when first displayed
-\AtBeginSection{
-  \begin{frame}<beamer>
-    \frametitle{Outline}
-    \tableofcontents[currentsection]
-  \end{frame}
-}
-
-\addbibresource{bibliography.bib}
 
 \begin{document}
   \frame\titlepage
@@ -130,7 +42,7 @@
   \end{frame}
 
   \section{Preliminary Exam Recap}
-  
+
   \section{New Related Work}
 
   \section{\Glsfmtlongpl{hg}}

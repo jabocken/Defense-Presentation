@@ -1,0 +1,57 @@
+\usepackage{mathtools}             % For \coloneqq
+\usepackage{siunitx}               % For units, S column type, nice number formatting
+\usepackage{wasysym}               % For \wasylozenge
+\usepackage[epsilon]{backnaur}     % For BNF diagrams; a (more complex?) alternative is the syntax package
+\usepackage{bussproofs}            % for prooftree environment
+
+%% Math commands
+% Memory stuff!
+\newcommand*\region[2]{[#1,#2]}
+\newcommand*\readmem[2]{\ast\region{#1}{#2}}
+\WithSuffix{\newcommand*}\readmem*[1]{\ast#1}
+\newcommand*\readmemS[3]{#1\vdash\readmem{#2}{#3}}
+\WithSuffix{\newcommand*}\readmemS*[2]{#1\vdash\readmem*{#2}}
+\newcommand*\htriple[3]{\{#1\}#2\{#3\}}
+\WithSuffix{\newcommand*}\htriple*[4]{\{#1\}#2\{#3{;}#4\}}
+\newcommand\enclosed\sqsubseteq
+\newcommand\separate\bowtie
+\DeclareMathOperator{\seps}{\bigotimes}
+
+% Bots
+\newcommand{\infloop}{\bot_\mathrm{NT}}
+\newcommand{\err}{\bot_\mathrm{E}}
+
+% Symbolic execution
+\DeclareMathOperator{\run}{run}
+\DeclareMathOperator{\loc}{loc}
+
+% Registers and the like
+\newcommand*\var[1]{\mathit{#1}}
+\newcommand\rspo{\var{rsp}_0}
+\newcommand\retaddr{\mathtt{ret\_addr}}
+
+\newcommand\mathrsp{\text{\inlineasm{rsp}}}
+\newcommand\mathrbp{\text{\inlineasm{rbp}}}
+
+% Syntactic Control Flow
+\newcommand\ind[1]{\hspace{#1}}
+\newcommand*\Block[2]{\mathtt{#1\texttt{->}#2}}
+\WithSuffix\newcommand\Block*[3]{#1~#2~#3}
+\newcommand*\ASeq{\mathrel{\texttt{;}}}
+\WithSuffix{\newcommand*}\ASeq*{\texttt{;}}
+\newcommand*\AWhile{\texttt{While}}
+\newcommand*\ADo{\texttt{Do}}
+\newcommand*\AOd{\texttt{Od}}
+\newcommand*\AIf{\texttt{If}}
+\newcommand*\AThen{\texttt{Then}}
+\newcommand*\AElse{\texttt{Else}}
+\newcommand*\AFi{\texttt{Fi}}
+\newcommand*\ABB{\texttt{Block}}
+\newcommand*\ASkip{\texttt{Skip}}
+\newcommand*\ACall{\texttt{Call}}
+\newcommand*\ABreak{\texttt{Break}}
+\newcommand*\AContinue{\texttt{Continue}}
+\newcommand*\AWhileResume{\texttt{Resume}}
+
+\DeclareMathOperator{\execblock}{\textsc{symbExec}}
+\DeclareMathOperator{\usage}{preserve}

@@ -5,8 +5,8 @@
   postdot,% full stop after description; may be better to use post-description-dot per resource entry
   nostyles,% don't load default style packages; this is the recommendation
   % load glossaries-extra-stylemods.sty and tree, bookindex, long/list for abbrevs
-%  stylemods={tree,bookindex,long,list}, % index(group) doesn't fail when you don't include tree but latexmk errored out due to lack of stabilization
-  style=indexgroup, % default style
+%  stylemods={tree,bookindex,long,list}, % index doesn't fail when you don't include tree but latexmk errored out due to lack of stabilization. indexgroup does though
+%  style=indexgroup, % default style
   prefix, % for a(n) configuration
   abbreviations,symbols,index,numbers % want these glossaries
 ]{glossaries-extra}
