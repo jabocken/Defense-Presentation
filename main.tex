@@ -24,6 +24,8 @@
 
 \addbibresource{bibliography.bib}
 
+\newcommand{\todo}[1]{{\bfseries\color{purple}#1}} % Allowing paragraphs in todos
+
 \input{preamble/beamer}
 \input{preamble/glossaries}
 \input{preamble/listingsetup}
@@ -31,30 +33,19 @@
 \input{preamble/tikz}
 \input{preamble/title}
 
-\newcommand{\todo}[1]{{\bfseries\color{purple}#1}} % Allowing paragraphs in todos
-
 \begin{document}
   \frame\titlepage
 
-  \section{Introduction}
-  \begin{frame}
-    Test
-  \end{frame}
+  \include{intro}
+  \include{related}
+  \include{hg}
+  \include{eicfg}
+  \include{conclusion}
 
-  \section{Preliminary Exam Recap}
-
-  \section{New Related Work}
-
-  \section{\Glsfmtlongpl{hg}}
-
-  \section{\Glsfmtlongpl{eicfg}}
-
-  \section{Conclusion}
-
+  \appendix % Not sure if this is really right but oh well
   \begin{frame}%[t,allowframebreaks]
     \frametitle{Bibliography}
     \printbibliography[heading=none] % sections in frames is a no-no
   \end{frame}
 
-  \appendix
 \end{document}
