@@ -17,8 +17,24 @@
 
 
 \subsection{Preliminary Exam Recap}
-\begin{frame}{Memory Usage}
-  \todo{get visual from prelim}
+\begin{frame}{What is Memory Usage?}
+  \todo{that horizontal graph}
+\end{frame}
+
+\begin{frame}{Memory Usage is an \emph{Overapproximation}}
+  \centering
+  \begin{tikzpicture}[region/.style={circle, fill=red, text=white}]
+    \node[ellipse, fill=green, text width=4.5cm, text height=2cm] {};
+    \node[region] at (2, .75) {$r_0$};
+    \node[region] at (1.6, 0) {$r_1$};
+    \node[region] at (0.7, -0.5) {$r_2$};
+    \node<-3>[region] at (0, 0.1) {$r_3$};
+    \node<-2>[region] at (-1, -0.9) {$r_4$};
+    \node<1>[region] at (-1.7, 0.5) {$r_5$};
+  \end{tikzpicture}
+
+  Green = proof of no change \\
+  Red = no proof of no change
 \end{frame}
 
 \begin{frame}{Floyd-Style Verification}
