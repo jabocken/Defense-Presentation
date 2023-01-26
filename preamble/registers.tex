@@ -1,0 +1,32 @@
+%TODO: Combine these!
+\newcommand{\mathrax}{\text{\inlineasm{rax}}}
+\newcommand{\mathrip}{\text{\inlineasm{rip}}}
+\newcommand{\mathrbp}{\text{\inlineasm{rbp}}}
+\newcommand{\mathrbx}{\text{\inlineasm{rbx}}}
+\newcommand{\mathrdi}{\text{\inlineasm{rdi}}}
+\newcommand{\mathrsi}{\text{\inlineasm{rsi}}}
+\newcommand{\mathrsp}{\text{\inlineasm{rsp}}}
+\newcommand{\mathdil}{\text{\inlineasm{dil}}}
+\newcommand{\mathdl}{\text{\inlineasm{dl}}}
+\newcommand{\mathfs}{\text{\inlineasm{fs}}}
+\newcommand{\mathgs}{\text{\inlineasm{gs}}}
+\newcommand{\mathGPR}{\mathtt{GPR}}
+
+% Freek was preferring dot notation for fields so don't need \DeclareMathOperator
+\newcommand*\reg[1]{\mathasm{#1}}
+\newcommand{\rdi}{\reg{rdi}}
+\newcommand{\rsi}{\reg{rsi}}
+\newcommand{\rip}{\reg{rip}}
+\newcommand{\rsp}{\reg{rsp}}
+\newcommand{\rbp}{\reg{rbp}}
+\newcommand{\rax}{\reg{rax}}
+\newcommand{\rbx}{\reg{rbx}}
+\newcommand{\rcx}{\reg{rcx}}
+\newcommand{\rdx}{\reg{rdx}}
+
+\newcommand{\fso}{\reg{fs}_0}
+\newcommand{\rdio}{\rdi_0}
+\newcommand{\rsio}{\rsi_0}
+\newcommand{\rspo}{\rsp_0}
+\newcommand{\rbpo}{\rbp_0}
+\newcommand{\rdxo}{\rdx_0}

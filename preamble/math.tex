@@ -5,6 +5,8 @@
 \usepackage{bussproofs}            % for prooftree environment
 
 %% Math commands
+\newcommand*\mathasm[1]{\text{\inlineasm{#1}}}
+
 % Memory stuff!
 \newcommand*\region[2]{[#1,#2]}
 \newcommand*\readmem[2]{\ast\region{#1}{#2}}
@@ -27,11 +29,7 @@
 
 % Registers and the like
 \newcommand*\var[1]{\mathit{#1}}
-\newcommand\rspo{\var{rsp}_0}
 \newcommand\retaddr{\mathtt{ret\_addr}}
-
-\newcommand\mathrsp{\text{\inlineasm{rsp}}}
-\newcommand\mathrbp{\text{\inlineasm{rbp}}}
 
 % Syntactic Control Flow
 \newcommand\ind[1]{\hspace{#1}}
