@@ -17,6 +17,8 @@
 
 \begin{frame}{Hoare Graph Snippet}
   \centering
+  \todo{fixing up later}
+
   % combination insser sep/minimum size ensures all nodes have exactly same size
   \tikzset{vertex/.style = {shape=circle,draw,minimum size=0.7cm}} % inner sep=0pt, <- what does this even do?
   \tikzset{edge/.style = {->,> = latex'}}
@@ -99,8 +101,134 @@
   \end{tikzpicture}
 \end{frame}
 
+\begin{frame}{Points of Note}
+  \begin{outline}
+    \1 Disassembly requires alias analysis
+    \1 Disassembly requires bounds checking
+    \1 Weird edges are present
+    \1 \Glspl{hg} are provably overapproximative
+    \1 \Glspl{hg} facilitate formal verification
+  \end{outline}
+\end{frame}
 
 \subsection{Formulation}
+
+\begin{frame}{Basics of State}
+  \begin{columns}
+    \column{.35\textwidth}
+    \begin{block}{Main Parts}
+      \begin{outline}[enumerate]
+        \1 \alert{Predicates} on state
+        \1 Structured \alert{memory models}
+      \end{outline}
+    \end{block}
+
+    \column{.65\textwidth}
+    \todo{some filler figure here to look nice}
+  \end{columns}
+\end{frame}
+
+\begin{frame}{State Predicates}
+  \begin{columns}
+    \column{.45\textwidth}
+    \begin{block}{Predicate Breakdown}
+      \begin{outline}
+        \1 Set of \alert{clauses}
+        \1 Clauses model values of individual \alert{state parts}
+        \1 Only holds on state if all clauses hold
+        \1 Also indicates next instruction to evaluate!
+      \end{outline}
+    \end{block}
+
+    \column{.55\textwidth}
+    \begin{example}[Predicate]
+    \end{example}
+  \end{columns}
+\end{frame}
+
+\begin{frame}{Memory Models}
+  \begin{columns}
+    \column{.425\textwidth}
+    \begin{block}{What are they?}
+      \begin{outline}
+        \1 \alert{Forest} structure of \alert{memory regions}
+        \1 Different arrangements for different possible \alert{relations}
+          \2 \alert{Aliasing}
+          \2 \alert{Separation}
+          \2 \alert{Enclosure}
+        \1 Only holds if state matches
+      \end{outline}
+    \end{block}
+
+    \column{.575\textwidth}
+    \begin{example}[Memory Model]
+    \end{example}
+  \end{columns}
+\end{frame}
+
+\begin{frame}{Nondeterminism}
+  \begin{columns}
+    \column{.4\textwidth}
+    \begin{block}{Why?}
+      \begin{outline}
+        \1 Most aliasing is \alert{potential}
+        \1 Want to model all possibilities
+        \1 Also want to model control flow!
+      \end{outline}
+    \end{block}
+
+    \column{.6\textwidth}
+    \begin{example}[Nondeterminism]
+    \end{example}
+  \end{columns}
+\end{frame}
+
+\begin{frame}{Joining}
+  \begin{columns}
+    \column{.3\textwidth}
+    \begin{block}{Why?}
+      \begin{outline}
+        \1 Reduces state space
+        \1 Allows loop termination
+      \end{outline}
+    \end{block}
+
+    \column{.7\textwidth}
+    \begin{example}[Join]
+    \end{example}
+  \end{columns}
+\end{frame}
+
+\begin{frame}{Base Algorithm}
+  \begin{outline}[enumerate]
+    \1 Pop state off \gls{bag} of states to analyze
+    \1 If state \alert{``less than''} existing state in \gls{hg}, join and update \gls{hg}
+    \1 Evaluate current instruction in potentially-joined state; may result in multiple result states
+    \1 Can continue? For each result:
+      \2 If yes, add to bag
+      \2 If no, annotate in \gls{hg}
+  \end{outline}
+\end{frame}
+
+\begin{frame}{Extension for Function Calls}
+  \begin{columns}
+    \column{.5\textwidth}
+    \begin{block}{State Modifications}
+      \begin{outline}
+        \1 External calls preserve only stack, \alert{caller-saved} registers
+        \1 Internal calls
+          \2 Preserve stack, \alert{caller-saved} registers at call site
+          \2 State within call reset, allowing reuse of results
+          \2 Perform join of state-within-call and post-call state for subcall return
+        \1 Requires concept of \alert{reachability}; post-call states not continued unless known reachable
+      \end{outline}
+    \end{block}
+
+    \column{.5\textwidth}
+    \begin{example}[Function Call]
+    \end{example}
+  \end{columns}
+\end{frame}
 
 % Leaving out validation as that was Freek's work. I'll answer questions if it gets brought up but dedicating time to it explicitly is probably not worth it.
 
@@ -114,7 +242,7 @@
     \column{.6\textwidth}
     \begin{block}{Properties}
       \begin{outline}
-        \1 Widely used \alert{\gls{vmm}/hypervisor}
+        \1 Widely used \gls{vmm}/hypervisor
         \1 Mostly written in \gls{c}
       \end{outline}
     \end{block}
@@ -181,6 +309,4 @@
   \end{tikzpicture}
 \end{frame}
 
-
-\subsection{Discussion}
-\frame{Not sure if this should be left out}
+%\subsection{Discussion}
