@@ -2,6 +2,57 @@
 
 \subsection{Example}
 \frame{dummy}
+\begin{frame}{Ghidra-Generated Example}
+  \centering
+  % Trying to use \only/\uncover/etc. with the graph paths directly doesn't work so need to mess with the styles
+  \only<1>{
+    \tikzstyle{unwind}=[draw=none]
+    \tikzstyle{interproc}=[draw=none]
+    \tikzstyle{bad}=[]
+    \tikzstyle{good}=[]
+  }
+  \begin{tikzpicture}
+    \graph[
+      grow down=1.25cm,
+      branch right=1.5cm,
+      nodes={draw,ellipse,font=\ttfamily}
+    ]{
+      foo -> fEnd1/""[ret],
+      foo -> "" -> {fEnd1, fEnd2/""[ret]}, % more compact this way
+      foo'[landing] -> fEnd'/""[ret],
+
+      bar -> {b1/"", bEnd1/""[ret,< draw=none]} -> {b2/"", bEnd2/""[ret]},
+      b2 -> {bar[> bend left], bEnd2},
+      b1 -> bEnd2, % necessary due to group/chain interactions
+      bar'[landing] -> bEnd'/""[ret],
+
+      {[grow down=1.25cm, branch right=1.5cm]
+        {main[circle], catch[landing]} -> {
+          callSite/""[diamond],
+          ""[at=(0:-.5)],
+          ""[ret, bad, at=(0:-1), < draw=none]
+        } -> ""[ret,good],
+      };
+
+      callSite ->[interproc] foo;
+      callSite ->[interproc] bar;
+
+      fEnd1 ->[interproc] callSite;
+      bEnd2 ->[interproc] callSite;
+
+      fEnd2 ->[unwind] foo'; fEnd' ->[unwind] catch;
+      bEnd1[< draw] ->[unwind] bar'; bEnd' ->[unwind] catch; % Had to reenable bEnd1's ability to draw outgoing edges here as setting it on the edge itself didn't work.
+    };
+  \end{tikzpicture}
+  \uncover<2->{
+      \begin{description}[leftmargin=\widthof{Green triangle}]
+      \item[Red dashes] normal interprocedural control flow
+      \item[Blue dots] unwinding edges
+      \item[Green triangle] successful termination
+      \item[Blue triangle] exceptional termination
+    \end{description}
+  }
+\end{frame}
 
 \subsection{Formulation}
 \frame{dummy}
