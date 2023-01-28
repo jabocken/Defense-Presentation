@@ -17,8 +17,7 @@
 \usepackage{threeparttable}        % For tables with notes
 
 \usepackage[
-  citestyle=authoryear-icomp, % Author-year style better for bibliographies
-  maxcitenames=2, % for table
+  citestyle=authoryear-icomp, % Author-year style better for beamer bibliographies
   maxbibnames=99 % Avoids `et al.` in bibliography
 ]{biblatex} % if issues occur with utf8 inputenc, try the safeinputenc option
 
@@ -44,7 +43,7 @@
   \include{conclusion} % 5 minutes
 
   \appendix % Not sure if this is really right but oh well
-  \begin{frame}%[t,allowframebreaks]
+  \begin{frame}%[t,allowframebreaks] % t flushes text to top, which I guess is good for bibliographies?
     \frametitle{Bibliography}
     \printbibliography[heading=none] % sections in frames is a no-no
   \end{frame}
