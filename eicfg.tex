@@ -1,7 +1,6 @@
 \section{Exceptional Interprocedural Control Flow Graphs}
 
 \subsection{Example}
-\frame{dummy}
 \begin{frame}{Ghidra-Generated Example}
   \centering
   % Trying to use \only/\uncover/etc. with the graph paths directly doesn't work so need to mess with the styles
@@ -47,7 +46,7 @@
   \uncover<2->{
       \begin{description}[leftmargin=\widthof{Green triangle}]
       \item[Red dashes] normal interprocedural control flow
-      \item[Blue dots] unwinding edges
+      \item[Blue dots] \alert{unwinding} edges
       \item[Green triangle] successful termination
       \item[Blue triangle] exceptional termination
     \end{description}
@@ -56,19 +55,142 @@
 
 \subsection{Formulation}
 \begin{frame}{Basics of State}
+  \begin{outline}
+    \1 Focused on \alert{exceptional state} and \alert{function calls}
+      \2 Registers
+      \2 Program stack
+      \2 \alert{Caught} exceptions
+      \2 \alert{Uncaught} exceptions in transit
+    \1 Leaves out parts that can be overapproximated
+      \2 Produced stack only contains return addresses!
+    \1 Also requires static components from binary such as the \alert{landing pad table ($\landingpadtable$)}
+      \2 Encodes unwinding destinations for ranges of addresses
+  \end{outline}
 \end{frame}
 
-\begin{frame}{Generation}
+\begin{frame}{Generation}{What's the special bit?}
+  \begin{outline}[enumerate]
+    \1 Extract $\landingpadtable$ from binary
+    \1 \alert{Symbolically execute} the binary
+      \2 Start from \gls{ip} with initial \alert{symbolic state}
+      \2 Dissassemble instruction at that \gls{ip}
+      \2 Transform current state (including \gls{ip}) based on semantics of instruction (adds edge(s) to \gls{eicfg})
+      \2 Repeat with resulting state(s) until termination conditions encountered
+    \1 \alert{During 2.3, when encountering exceptional \gls{abi} calls, model them!}
+  \end{outline}
 \end{frame}
 
-\begin{frame}{Transition Rule Example}
+\begin{frame}{Modeling Exceptional \Glsfmtshort{abi} Calls}{Specification source: \citeurl{cxxEhAbi}}
+  \begin{block}{\inlineasm{__cxa_throw}}
+    \begin{outline}[enumerate]
+      \1 If current \gls{ip} is in $\landingpadtable$ (and current exception type matches):
+        \2 Jump to target and stop unwinding
+        \2 Add corresponding edge to \gls{eicfg}
+      \1 Otherwise, unwind:
+        \2 Pop off current function call stack frame
+        \2 Jump to that frame's stored return address
+        \2 Add corresponding edge to \gls{eicfg}
+      \1 Repeat until no more stack frames are available, then terminate (\alert{unhandled exception})
+    \end{outline}
+  \end{block}
 \end{frame}
 
 \subsection{Validation}
-\frame{dummy}
+\begin{frame}{How to check abstract semantics versus concrete?}
+  \centering
+  Compare to real-world executions of the functions being modeled!
+
+  \includegraphics[width=.15\textwidth]{intel_bx80619i73970x_core_i7_extreme_i7_3970x_908772}
+  \begin{equation}
+    \sigma\absTransition\sigma'\land\gamma(\sigma)\concTransition s'\implies\alpha(s')=\sigma' \label{eq:validation}
+  \end{equation}
+  \vfill
+  Requires real-world crafted programs for the functions though\dots
+\end{frame}
+
+\begin{frame}{Process}
+  \begin{outline}[enumerate]
+    \1 \alert{Fuzz} the \alert{abstract} states to get set of \alert{inputs} (we generated \glssymbol{fuzz-count})
+    \1 Execute abstract function models to get abstract \alert{outputs}
+    \1 \alert{Concretize}, inject abstract inputs into crafted programs using \alert{test harness} (\gls{gdb} used to set beakpoints, overwrite and view concrete program state)
+    \1 Check \alert{abstracted} \alert{concrete} outputs against abstract outputs for corresponding inputs
+  \end{outline}
+\end{frame}
+
+\begin{frame}{Results}
+  \centering
+      \begin{tabular}{lccccccc}
+    \toprule
+    \thead{Rule} & \thead{$\rip$} & \thead{in/out regs} & \thead{$\handlerCount$} & \thead{$\uncaught$} & \thead{$\mathsf{handlerSwitchValue}$} & \thead{$\caught$} \\
+    \midrule
+    \inlineasm{__cxa_throw} & \checked & \checked & \checked & \checked && \\
+    \inlineasm{__cxa_begin_catch} & \checked & \checked & \checked & \checked & \checked & \\
+    \alert{\inlineasm{__cxa_end_catch}} & \checked & n/a & \checked & \checked & \checked & Partial \\
+    \alert{\inlineasm{__cxa_rethrow}} & \checked & \checked & \checked & \checked && Partial \\
+    \alert{\inlineasm{_Unwind_Resume}} && \checked & \checked & \checked & \checked & \\
+    \bottomrule
+  \end{tabular}
+\end{frame}
+
+\begin{frame}{Challenges}
+  \begin{outline}
+    \1 Implementation quirks
+      \2 Concrete implementation of \inlineasm{__cxa_begin_catch} takes absolute value of negative handler counts supplied to it before incrementing that value
+      \2 \inlineasm{__cxa_rethrow} decreases $\handlerCount$ magnitude by one, then inverts sign; if the magnitude is 0, it is unchanged
+    \1 Not all arbitrary concrete states constructible
+      \2 Cannot do fully arbitrary memory manipulation without additional memory allocation/deallocation; affects
+        \3 Exception type info
+        \3 Linked list $\caught$ of caught exceptions
+    \1 \inlineasm{_Unwind_Resume} does not direct control flow to expected landing pad
+      \2 Prevented validation of correct output \gls{ip} (\rip)
+  \end{outline}
+\end{frame}
 
 \subsection{Results}
-\frame{dummy}
+\begin{frame}{Case Studies}
+  \begin{outline}
+    \1 Tested \glssymbol{total-bins} programs from a variety of sources
+      \2 Publicly available \gls{nasa} tools
+      \2 Programs and libraries from \gls{xen} hypervisor
+      \2 Various printing-related and document type conversion tools available on Linux
+      \2 Miscellaneous other programs
+    \1 Combination of \gls{c}, \gls{cpp}, even \gls{fortran}
+    \1 Special handling:
+      \2 Treated all function symbol addresses in binaries as potential starting \glspl{ip}
+      \2 Did two runs, one with \gls{eh} support, one without; compared results
+  \end{outline}
+\end{frame}
 
-\subsection{Discussion}
-\frame{dummy}
+\begin{frame}{Statistics Summarized}
+  \centering
+  \begin{tabular}{l
+      r% S[table-format=3]
+      S[table-format=7] % total inst count
+      S[table-format=7]
+      S[table-format=4]
+      S[table-format=4]
+      S[table-format=6.0]
+      |
+      S[table-format=5] % inst coverage differential
+    }
+    \toprule
+    & \multicolumn{6}{c}{\thead{Absolute Numbers}} & {\thead{Baseline\\Comparison}} \\
+    \midrule
+    {\thead{Groups}} & {\thead{Bin Count}} & {\thead{Covered Insts}} & {\thead{Unwind\\Edges}} & {\thead{Unique\\Throws}} & {\thead{Caught\\Throws}} & {\thead{Time/\si\second}} & {\thead{Inst Diff}} \\
+    \midrule
+    \multicolumn{7}{c}{\vdots} & \vdots \\
+    Cups & 163/164 & 317137 & 3938 & 33 & 0 & 6811 & -9 \\
+    \multicolumn{7}{c}{\vdots} & \vdots \\
+    Totals & \glssymbol{eicfg-bin-success}/341 & 4715806 & 1269649 & 3350 & 2356 & 105809 & 45032 \\
+    \bottomrule
+  \end{tabular}
+\end{frame}
+
+\begin{frame}{Discussion}{Unit Testing versus Integration Testing}
+  \begin{outline}
+    \1 Process of analysis uncovered flaw in symbolic execution \alert{not} found by validation
+      \2 Terminating functions have the instructions immediately following them counted as executed
+    \1 Validation of individual steps does not necessarily guarantee validation of the full process!
+      \2 Instruction coverage counting is based on but happens separately from the symbolic execution
+  \end{outline}
+\end{frame}

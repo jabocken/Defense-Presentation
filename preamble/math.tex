@@ -27,7 +27,7 @@
 \DeclareMathOperator{\run}{run}
 \DeclareMathOperator{\loc}{loc}
 
-% Registers and the like
+% Variables and the like
 \newcommand*\var[1]{\mathit{#1}}
 \newcommand\retaddr{\mathtt{ret\_addr}}
 
@@ -53,3 +53,22 @@
 
 \DeclareMathOperator{\execblock}{\textsc{symbExec}}
 \DeclareMathOperator{\usage}{preserve}
+
+% state/etc. fields
+\DeclareMathOperator\landingpadtable{\mathsf{LPT}}
+\newcommand{\stack}{\mathsf{stack}}
+\newcommand\caught{\mathsf{caught}}
+\newcommand\uncaught{\mathsf{uncaught}}
+
+% exception object stuff
+\DeclareMathOperator\emap{\mathsf{emap}}
+\DeclareMathOperator\rmap{\mathsf{rmap}}
+\newcommand\objectID{\mathsf{objectID}}
+\newcommand\handlerCount{\mathsf{handlerCount}}
+\newcommand\rethrown{\mathsf{rethrown}}
+\newcommand\typeInfo{\mathsf{typeInfo}}
+\newcommand\id{\mathit{id}}
+
+% For transitions/validation
+\newcommand\absTransition{\xrightarrow{\mathsf A}}
+\newcommand\concTransition{\xrightarrow{\mathsf C}}
