@@ -1,5 +1,19 @@
 \section{Exceptional Interprocedural Control Flow Graphs}
 
+\begin{frame}{Why \glsxtrshortpl{eicfg} specifically?}
+  \begin{outline}
+    \1 Common low(er)-level languages have structured exceptions, stack unwinding
+      \2 \Gls{cpp} (\lstinline|throw|, \lstinline|try|, \lstinline|catch|) converted to standard \gls{abi} functions (\inlineasm{__cxa_throw}, etc.)
+      \2 \Gls{c} with hooks to library functions
+    \1 Off-the-shelf \alert{disassemblers/decompilers} do not model exception unwinding
+      \2 Ghidra
+      \2 IDA Pro
+      \2 Binary Ninja
+    \1 This is a problem!
+  \end{outline}
+  \todo{Ghidra/etc. figures}
+\end{frame}
+
 \subsection{Example}
 \begin{frame}{Ghidra-Generated Example}
   \centering
@@ -80,7 +94,7 @@
   \end{outline}
 \end{frame}
 
-\begin{frame}{Modeling Exceptional \Glsfmtshort{abi} Calls}{Specification source: \citeurl{cxxEhAbi}}
+\begin{frame}{Modeling Exceptional \Glsxtrshort{abi} Calls}{Specification source: \citeurl{cxxEhAbi}}
   \begin{block}{\inlineasm{__cxa_throw}}
     \begin{outline}[enumerate]
       \1 If current \gls{ip} is in $\landingpadtable$ (and current exception type matches):

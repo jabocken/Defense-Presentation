@@ -1,49 +1,101 @@
 \section{Introduction}
-\begin{frame}{Test}
-  Test
+
+\subsection{Motivation and Challenges}
+\begin{frame}{Why static binary analysis?}
+  \begin{outline}
+    \1 Avoids \alert{runtime overhead}
+    \2 A necessity for dynamic instrumentation
+    \1 Supports symbolic, \alert{overapproximative} efforts
+    \2 Vs.\ dynamic analysis being path-limited by specific inputs
+    \1 Allows analysis without source code
+    \2 Legacy programs
+    \2 Reverse engineering
+    \2 Removal of compiler from the \gls{tcb} (eliminating the \alert{semantic gap})
+  \end{outline}
+
+  \todo{rotatebox with listing in the bottom right}
 \end{frame}
 
+\frame{one more slide here would be nice}
 
-\subsection{Motivation}
-\begin{frame}{Test}
-  Test
-\end{frame}
-
-
-\subsection{Challenges}
-\begin{frame}{Test}
-  Test
-\end{frame}
-
-
-\subsection{Preliminary Exam Recap}
-\begin{frame}{What is Memory Usage?}
+\subsection{The Old: Preliminary Exam Recap}
+\begin{frame}{What is memory usage?}
   \todo{that horizontal graph}
 \end{frame}
 
-% \alert doesn't look good with the title bar, not enough contrast
-\begin{frame}{Memory Usage is an \emph{Overapproximation}}
-  \centering
-  \begin{tikzpicture}[region/.style={circle, fill=red, text=white}]
-    \node[ellipse, fill=green, text width=4.5cm, text height=2cm] {};
-    \node[region] at (2, .75) {$r_0$};
-    \node[region] at (1.6, 0) {$r_1$};
-    \node[region] at (0.7, -0.5) {$r_2$};
-    \node<-3>[region] at (0, 0.1) {$r_3$};
-    \node<-2>[region] at (-1, -0.9) {$r_4$};
-    \node<1>[region] at (-1.7, 0.5) {$r_5$};
-  \end{tikzpicture}
-  \vfill
-  \begin{tabular}{rr}
-    \textcolor{blue}{Green} & proof of no change \\
-    \textcolor{blue}{Red} & no proof of no change
-  \end{tabular}
-\end{frame}
+\begin{comment} % Leaving out for now
+  % \alert doesn't look good with the title bar, not enough contrast
+  \begin{frame}{Memory Usage is an \emph{Overapproximation}}
+    \centering
+    \begin{tikzpicture}[region/.style={circle, fill=red, text=white}]
+      \node[ellipse, fill=green, text width=4.5cm, text height=2cm] {};
+      \node[region] at (2, .75) {$r_0$};
+      \node[region] at (1.6, 0) {$r_1$};
+      \node[region] at (0.7, -0.5) {$r_2$};
+      \node<-3>[region] at (0, 0.1) {$r_3$};
+      \node<-2>[region] at (-1, -0.9) {$r_4$};
+      \node<1>[region] at (-1.7, 0.5) {$r_5$};
+    \end{tikzpicture}
+    \vfill
+    \begin{tabular}{rr}
+      \textcolor{blue}{Green} & proof of no change \\
+      \textcolor{blue}{Red} & no proof of no change
+    \end{tabular}
+  \end{frame}
+\end{comment}
 
 \begin{frame}{Floyd-Style Verification}
-  Approach using \glspl{cfg} deconstructed with \alert{cutpoints}.
+  \begin{columns}
+    \column{.45\textwidth}
+    \begin{block}{Recap}
+      \begin{outline}
+        \1 Approach using \glspl{cfg} deconstructed with generated \alert{cutpoints}
+        \1 Generated proofs loaded in \gls{isabelle}[/HOL] and finished there
+        \1 Used to verify several manually-isolated functions from \alert{the HermitCore unikernel}
+        \1 Drawback: Manually intensive, proofs often require user input
+      \end{outline}
+    \end{block}
+
+    \column{.45\textwidth}
+    \begin{example}[Sample Graph]
+    \end{example}
+  \end{columns}
 \end{frame}
 
 \begin{frame}{Hoare-Style Verification}
-  Approach using \gls{scf} deconstructed by \alert{Hoare rules}.
+  \begin{columns}
+    \column{.45\textwidth}
+    \begin{block}{Recap}
+      \begin{outline}
+        \1 Approach using \gls{scf} deconstructed by \alert{Hoare rules}
+        \1 Generated proofs loaded in \gls{isabelle}[/HOL] and finished there
+        \2 Much less interaction required, only for loops and subcalls
+        \1 Used to verify dozens of HermitCore functions, including ones with subcalls; no need for manual extraction
+        \1 Drawback: \gls{scf} explosion can result from spaghetti code
+      \end{outline}
+    \end{block}
+
+    \column{.45\textwidth}
+    \begin{example}[Sample \Gls{scf}]
+    \end{example}
+  \end{columns}
+\end{frame}
+
+\begin{frame}{Notice something?}
+  \begin{center}
+    They both rely on some form of \gls{cfr}!
+  \end{center}
+\end{frame}
+
+\subsection{The New: Control Flow Recovery}
+\begin{frame}{More on \Glsxtrshort{cfr}}
+  \begin{outline}
+    \1 Facilitates
+      \2 Decompilation
+      \2 Verification
+      \2 Patching
+    \1 Allows for improved security analyses
+      \2 Can't reason over security properties if you don't know all instructions a program will go to
+  \end{outline}
+  \todo{put a little figure to look nice}
 \end{frame}
