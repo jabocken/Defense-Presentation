@@ -1,14 +1,29 @@
-\section{Future Work}
+\section{Conclusion}
 
-\subsection{Contextuality}
-\frame{dummy}
+\begin{frame}{Contributions Revisited}
+  \begin{outline}
+    \1 Floyd-style verification
+      \2 Memory usage analysis with \alert{cutpoints}
+    \1 Hoare-style verification
+      \2 Memory usage analysis with \glspl{scf}
+    \1 \Glsxtrlongpl{hg}
+      \2 Automated, \alert{overapproximative} \gls{cfr}
+    \1 \Glsxtrlongpl{eicfg}
+      \2 \Gls{cfr} focusing on \gls{eh}
+  \end{outline}
+\end{frame}
 
-\subsection{Concurrency}
-\frame{dummy}
-
-\subsection{State Space Reduction}
-\frame{dummy}
-
-% TODO: Why do the gls fmt commands not work in beamer sectioning?
-\subsection{Integrating \Glsfmtshort{cfr} into Formal Frameworks}
-\frame{dummy}
+\begin{frame}{Future Work}
+  \begin{outline}
+    \1 Improve contextuality
+      \2 Existing mechanisms for indirection, etc.\ still fail in some useful cases
+      \2 How to improve that without losing scalability?
+    \1 Support concurrency
+      \2 Nonlinear control flow introduces additional considerations
+    \1 State space reduction
+      \2 Scalability is an issue even for \gls{eicfg} work; how to reduce the state space while maintaining proper contextuality?
+    \1 Integrating \gls{cfr} into formal frameworks
+      \2 \Gls{hg}, \gls{eicfg} works not currently integrated into larger frameworks
+      \2 Would be useful to package up in \pgls{abi}
+  \end{outline}
+\end{frame}

@@ -1,0 +1,39 @@
+\section{Prelim Recap}
+\begin{frame}[label=floyd]{Floyd-Style Verification}
+  \begin{columns}
+    \column{.45\textwidth}
+    \begin{block}{Recap}
+      \begin{outline}
+        \1 Approach using \glspl{cfg} deconstructed with generated \alert{cutpoints}
+        \1 Generated proofs loaded in \gls{isabelle}[/HOL] and finished there
+        \1 Used to verify several manually-isolated functions from \alert{the HermitCore unikernel}
+        \1 Drawback: Manually intensive, proofs often require user input
+      \end{outline}
+    \end{block}
+
+    \column{.45\textwidth}
+    \begin{example}[Sample Graph]
+      \todo{figure from dissertation}
+    \end{example}
+  \end{columns}
+\end{frame}
+
+\begin{frame}[label=hoare]{Hoare-Style Verification}
+  \begin{columns}
+    \column{.45\textwidth}
+    \begin{block}{Recap}
+      \begin{outline}
+        \1 Approach using \gls{scf} deconstructed by \alert{Hoare rules}
+        \1 Generated proofs loaded in \gls{isabelle}[/HOL] and finished there
+        \2 Much less interaction required, only for loops and subcalls
+        \1 Used to verify dozens of HermitCore functions, including ones with subcalls; no need for manual extraction
+        \1 Drawback: \gls{scf} explosion can result from spaghetti code
+      \end{outline}
+    \end{block}
+
+    \column{.45\textwidth}
+    \begin{example}[Sample \Gls{scf}]
+      \todo{figure from dissertation}
+    \end{example}
+  \end{columns}
+\end{frame}

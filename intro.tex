@@ -1,101 +1,166 @@
 \section{Introduction}
 
-\subsection{Motivation and Challenges}
+\subsection{Contributions}
+
+\begin{frame}{Contributions}
+  \begin{columns}
+    \column{.36\textwidth}
+    \begin{block}{Preliminary exam: memory usage}
+      \begin{outline}
+        \1 \hyperlink{floyd}{Floyd-style verification}
+        \1 \hyperlink{hoare}{Hoare-style verification}
+      \end{outline}
+    \end{block}
+
+    \column{.55\textwidth}
+    \begin{block}{Novel contributions: \gls{cfr}}
+      \begin{outline}
+        \1 \Glspl{hg}
+        \1 \Glspl{eicfg}
+      \end{outline}
+    \end{block}
+  \end{columns}
+\end{frame}
+
+\begin{frame}{Contribution \#3: Hoare Graphs}{Key Points}
+  \begin{columns}
+    \column{.45\textwidth}
+    \begin{outline}
+      \1 Disassembly based on \alert{invariants}
+      \1 \alert{Overapproximative}
+    \end{outline}
+    \todo{rotatebox assembly snippet for flair}
+
+    \column{.45\textwidth}
+    \begin{example}[Jump Table Invariant]
+      \tikzset{vertex/.style = {shape=circle,draw,minimum size=0.7cm}} % inner sep=0pt, <- what does this even do?
+      \tikzset{edge/.style = {->,> = latex'}}
+      \begin{tikzpicture}
+        \node[vertex]    (b)     at  (3,-.5)  {$\mathtt{b}$};
+        \node[draw=none] (120)   at  (1.6,-1.5)  {};
+        \node[draw=none] (121)   at  (2.3,-1.5)  {};
+        \node[vertex]    (122)   at  (3,-2)  {$\mathtt{12}$};
+        \node[draw=none] (123)   at  (3.7,-1.5)  {};
+        \node[draw=none] (124)   at  (4.4,-1.5)  {};
+
+        \node[right] at (3.4,-.45) {$
+          \reg{eax} < \mathtt{0xc3}
+          $};
+
+        \node[right] at (3.4,-2) {$
+          \reg{eax} == a_\mathtt{jt}
+          $};
+
+        \draw [overlay,decorate,decoration={brace,amplitude=10pt,mirror},xshift=-4pt] (6,-1.75) -- (6,-.5) node [black,midway,xshift=1.4cm] {
+          \begin{tabular}{l}
+            up to $\mathtt{0xc3}$\\
+            edges: one\\
+            per read\\
+            value
+          \end{tabular}
+        };
+
+        \draw[dotted,->] (b)   to (120);
+        \draw[dotted,->] (b)   to (121);
+        \draw[->]        (b)   to (122);
+        \draw[dotted,->] (b)   to (123);
+        \path[dotted,->] (b)   edge node [right,xshift=0.2] {\inlineasm{mov}} (124);
+      \end{tikzpicture}
+    \end{example}
+  \end{columns}
+\end{frame}
+
+\begin{frame}{Contribution \#4: Exceptional Interprocedural Control Flow Graphs}{Improvement on the state of the art}
+  \centering
+  % Trying to use \only/\uncover/etc. with the graph paths directly doesn't work so need to mess with the styles
+  \only<1>{
+    \tikzstyle{unwind}=[draw=none]
+    \tikzstyle{interproc}=[draw=none]
+    \tikzstyle{bad}=[]
+    \tikzstyle{good}=[]
+  }
+  \begin{tikzpicture}
+    \graph[
+    grow down=1.25cm,
+    branch right=1.5cm,
+    nodes={draw,ellipse,font=\ttfamily}
+    ]{
+      foo -> fEnd1/""[ret],
+      foo -> "" -> {fEnd1, fEnd2/""[ret]}, % more compact this way
+      foo'[landing] -> fEnd'/""[ret],
+
+      bar -> {b1/"", bEnd1/""[ret,< draw=none]} -> {b2/"", bEnd2/""[ret]},
+      b2 -> {bar[> bend left], bEnd2},
+      b1 -> bEnd2, % necessary due to group/chain interactions
+      bar'[landing] -> bEnd'/""[ret],
+
+      {[grow down=1.25cm, branch right=1.5cm]
+        {main[circle], catch[landing]} -> {
+          callSite/""[diamond],
+          ""[at=(0:-.5)],
+          ""[ret, bad, at=(0:-1), < draw=none]
+        } -> ""[ret,good],
+      };
+
+      callSite ->[interproc] foo;
+      callSite ->[interproc] bar;
+
+      fEnd1 ->[interproc] callSite;
+      bEnd2 ->[interproc] callSite;
+
+      fEnd2 ->[unwind] foo'; fEnd' ->[unwind] catch;
+      bEnd1[< draw] ->[unwind] bar'; bEnd' ->[unwind] catch; % Had to reenable bEnd1's ability to draw outgoing edges here as setting it on the edge itself didn't work.
+    };
+  \end{tikzpicture}
+  \uncover<2->{
+    \begin{description}[leftmargin=\widthof{Green triangle}]
+      \item[Red dashes] normal interprocedural control flow
+      \item[Blue dots] \alert{unwinding} edges
+      \item[Green triangle] successful termination
+      \item[Blue triangle] exceptional termination
+    \end{description}
+  }
+\end{frame}
+
+
+\subsection{Motivation}
+
 \begin{frame}{Why static binary analysis?}
   \begin{outline}
-    \1 Avoids \alert{runtime overhead}
-    \2 A necessity for dynamic instrumentation
     \1 Supports symbolic, \alert{overapproximative} efforts
-    \2 Vs.\ dynamic analysis being path-limited by specific inputs
+      \2 Vs.\ dynamic analysis being path-limited by specific inputs
+      \2 Identification of \alert{weird} edges
     \1 Allows analysis without source code
-    \2 Legacy programs
-    \2 Reverse engineering
-    \2 Removal of compiler from the \gls{tcb} (eliminating the \alert{semantic gap})
+      \2 Legacy programs
+      \2 Reverse engineering
+        \3 Disassembly
+        \3 Decompilation
+      \2 Patching
+      \2 Security analysis
+    \2 Removal of compiler from the \gls{tcb}
   \end{outline}
 
   \todo{rotatebox with listing in the bottom right}
 \end{frame}
 
-\frame{one more slide here would be nice}
-
-\subsection{The Old: Preliminary Exam Recap}
-\begin{frame}{What is memory usage?}
-  \todo{that horizontal graph}
-\end{frame}
-
-\begin{comment} % Leaving out for now
-  % \alert doesn't look good with the title bar, not enough contrast
-  \begin{frame}{Memory Usage is an \emph{Overapproximation}}
-    \centering
-    \begin{tikzpicture}[region/.style={circle, fill=red, text=white}]
-      \node[ellipse, fill=green, text width=4.5cm, text height=2cm] {};
-      \node[region] at (2, .75) {$r_0$};
-      \node[region] at (1.6, 0) {$r_1$};
-      \node[region] at (0.7, -0.5) {$r_2$};
-      \node<-3>[region] at (0, 0.1) {$r_3$};
-      \node<-2>[region] at (-1, -0.9) {$r_4$};
-      \node<1>[region] at (-1.7, 0.5) {$r_5$};
-    \end{tikzpicture}
-    \vfill
-    \begin{tabular}{rr}
-      \textcolor{blue}{Green} & proof of no change \\
-      \textcolor{blue}{Red} & no proof of no change
-    \end{tabular}
-  \end{frame}
-\end{comment}
-
-\begin{frame}{Floyd-Style Verification}
-  \begin{columns}
-    \column{.45\textwidth}
-    \begin{block}{Recap}
-      \begin{outline}
-        \1 Approach using \glspl{cfg} deconstructed with generated \alert{cutpoints}
-        \1 Generated proofs loaded in \gls{isabelle}[/HOL] and finished there
-        \1 Used to verify several manually-isolated functions from \alert{the HermitCore unikernel}
-        \1 Drawback: Manually intensive, proofs often require user input
-      \end{outline}
-    \end{block}
-
-    \column{.45\textwidth}
-    \begin{example}[Sample Graph]
-    \end{example}
-  \end{columns}
-\end{frame}
-
-\begin{frame}{Hoare-Style Verification}
-  \begin{columns}
-    \column{.45\textwidth}
-    \begin{block}{Recap}
-      \begin{outline}
-        \1 Approach using \gls{scf} deconstructed by \alert{Hoare rules}
-        \1 Generated proofs loaded in \gls{isabelle}[/HOL] and finished there
-        \2 Much less interaction required, only for loops and subcalls
-        \1 Used to verify dozens of HermitCore functions, including ones with subcalls; no need for manual extraction
-        \1 Drawback: \gls{scf} explosion can result from spaghetti code
-      \end{outline}
-    \end{block}
-
-    \column{.45\textwidth}
-    \begin{example}[Sample \Gls{scf}]
-    \end{example}
-  \end{columns}
-\end{frame}
-
-\begin{frame}{Notice something?}
+\begin{frame}{Why \glsxtrlong{cfr}?}
   \begin{center}
-    They both rely on some form of \gls{cfr}!
+    Required for static binary analysis: Existing disassemblers/decompilers often rely on external \gls{cfr} tools!
   \end{center}
+
+  \todo{put a little figure to look nice}
 \end{frame}
 
-\subsection{The New: Control Flow Recovery}
-\begin{frame}{More on \Glsxtrshort{cfr}}
+\begin{frame}{Why exceptional \gls{cfr}?}
   \begin{outline}
-    \1 Facilitates
-      \2 Decompilation
-      \2 Verification
-      \2 Patching
-    \1 Allows for improved security analyses
-      \2 Can't reason over security properties if you don't know all instructions a program will go to
+    \1 Common low(er)-level languages have structured exceptions, stack unwinding
+      \2 \Gls{cpp} (\lstinline|throw|, \lstinline|try|, \lstinline|catch|) converted to standard \gls{abi} functions (\inlineasm{__cxa_throw}, etc.)
+      \2 \Gls{c} with hooks to library functions
+    \1 Off-the-shelf \alert{disassemblers/decompilers} do not model exception unwinding
+      \2 Ghidra
+      \2 IDA Pro
+      \2 Binary Ninja
+    \1 This is a problem!
   \end{outline}
-  \todo{put a little figure to look nice}
+  \todo{Ghidra/etc. figures}
 \end{frame}
