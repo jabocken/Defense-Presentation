@@ -37,3 +37,21 @@
     \end{example}
   \end{columns}
 \end{frame}
+
+\begin{frame}[label=timing]{\Glsxtrshort{hg} Timing}
+  \centering
+  \begin{tikzpicture}
+    \begin{axis}[
+      width=.95\textwidth,
+      height=.75\textheight,
+      date coordinates in=y,
+      date ZERO=0-0-0,
+      yticklabel=\hour:\minute,
+      xlabel=Instruction Count,
+      ylabel=Time/h:m,
+      title=Distribution of instructions versus time
+      ]
+      \addplot[scatter, only marks] table [col sep=comma]{data/timing-hg.csv};
+    \end{axis}
+  \end{tikzpicture}
+\end{frame}

@@ -53,6 +53,10 @@
   }
 \end{frame}
 
+\begin{frame}{State of the Art}
+  \todo\dots
+\end{frame}
+
 \subsection{Formulation}
 \begin{frame}{Basics of State}
   \begin{outline}
@@ -112,7 +116,7 @@
   \begin{outline}[enumerate]
     \1 \alert{Fuzz} the \alert{abstract} states to get set of \alert{inputs} (we generated \glssymbol{fuzz-count})
     \1 Execute abstract function models to get abstract \alert{outputs}
-    \1 \alert{Concretize}, inject abstract inputs into crafted programs using \alert{test harness} (\gls{gdb} used to set beakpoints, overwrite and view concrete program state)
+    \1 \alert{Concretize}, inject abstract inputs into crafted programs using \alert{test harness} (\gls{gdb} used to set breakpoints, overwrite and view concrete program state)
     \1 Check \alert{abstracted} \alert{concrete} outputs against abstract outputs for corresponding inputs
   \end{outline}
 \end{frame}
@@ -186,11 +190,15 @@
   \end{tabular}
 \end{frame}
 
-\begin{frame}{Discussion}{Unit Testing versus Integration Testing}
-  \begin{outline}
-    \1 Process of analysis uncovered flaw in symbolic execution \alert{not} found by validation
-      \2 Terminating functions have the instructions immediately following them counted as executed
-    \1 Validation of individual steps does not necessarily guarantee validation of the full process!
-      \2 Instruction coverage counting is based on but happens separately from the symbolic execution
-  \end{outline}
+\begin{frame}{Discussion and Limitations}
+  \todo\dots
 \end{frame}
+
+%\begin{frame}{Discussion}{Unit Testing versus Integration Testing}
+%  \begin{outline}
+%    \1 Process of analysis uncovered flaw in symbolic execution \alert{not} found by validation
+%      \2 Terminating functions have the instructions immediately following them counted as executed
+%    \1 Validation of individual steps does not necessarily guarantee validation of the full process!
+%      \2 Instruction coverage counting is based on but happens separately from the symbolic execution
+%  \end{outline}
+%\end{frame}

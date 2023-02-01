@@ -1,4 +1,4 @@
-\section{Hoare Graphs}
+\section{Formally Verified Disassembly}
 
 \subsection{Example}
 
@@ -116,14 +116,8 @@
   \end{columns}
 \end{frame}
 
-\begin{frame}{Points of Note}
-  \begin{outline}
-    \1 Disassembly requires alias analysis
-    \1 Disassembly requires bounds checking
-    \1 Weird edges are present
-    \1 \Glspl{hg} are provably overapproximative
-    \1 \Glspl{hg} facilitate formal verification
-  \end{outline}
+\begin{frame}{State of the Art}
+  \todo\dots
 \end{frame}
 
 \subsection{Formulation}
@@ -196,23 +190,6 @@
 
     \column{.6\textwidth}
     \begin{example}[Nondeterminism]
-      \todo{taking from dissertation}
-    \end{example}
-  \end{columns}
-\end{frame}
-
-\begin{frame}{Joining}
-  \begin{columns}
-    \column{.3\textwidth}
-    \begin{block}{Why?}
-      \begin{outline}
-        \1 Reduces state space
-        \1 Allows loop termination
-      \end{outline}
-    \end{block}
-
-    \column{.7\textwidth}
-    \begin{example}[Join]
       \todo{taking from dissertation}
     \end{example}
   \end{columns}
@@ -309,24 +286,10 @@
     \multicolumn{9}{c}{$w+x+y+z$: $w$ lifted, $x$ unprovable return address, $y$ concurrency, $z$ timeout} \\
     A &=& Resolved indirection & B &=& Unresolved jump(s) & C &=& Unresolved call(s) \\
   \end{tabular}
+
+  \hyperref{timing}{\beamerbutton{Timing}}
 \end{frame}
 
-\begin{frame}{Timing}
-  \centering
-  \begin{tikzpicture}
-    \begin{axis}[
-        width=.95\textwidth,
-        height=.75\textheight,
-      date coordinates in=y,
-      date ZERO=0-0-0,
-      yticklabel=\hour:\minute,
-      xlabel=Instruction Count,
-      ylabel=Time/h:m,
-      title=Distribution of instructions versus time
-    ]
-      \addplot[scatter, only marks] table [col sep=comma]{data/timing-hg.csv};
-    \end{axis}
-  \end{tikzpicture}
+\begin{frame}{Discussion and Limitations}
+  \todo\dots
 \end{frame}
-
-%\subsection{Discussion}
