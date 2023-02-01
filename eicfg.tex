@@ -3,12 +3,14 @@
 \subsection{Example}
 \begin{frame}{Returning to Example}
   \centering
+  \tikzstyle{backdraw}=[< draw] % Had to reenable bEnd1's ability to draw outgoing edges here as setting it on the edge itself didn't work.
   % Trying to use \only/\uncover/etc. with the graph paths directly doesn't work so need to mess with the styles
   \only<1>{
     \tikzstyle{unwind}=[draw=none]
     \tikzstyle{interproc}=[draw=none]
     \tikzstyle{bad}=[]
     \tikzstyle{good}=[]
+    \tikzstyle{backdraw}=[]
   }
   \begin{tikzpicture}
     \graph[
@@ -40,7 +42,7 @@
       bEnd2 ->[interproc] callSite;
 
       fEnd2 ->[unwind] foo'; fEnd' ->[unwind] catch;
-      bEnd1[< draw] ->[unwind] bar'; bEnd' ->[unwind] catch; % Had to reenable bEnd1's ability to draw outgoing edges here as setting it on the edge itself didn't work.
+      bEnd1[backdraw] ->[unwind] bar'; bEnd' ->[unwind] catch;
     };
   \end{tikzpicture}
   \uncover<2->{
@@ -102,9 +104,8 @@
 \subsection{Validation}
 \begin{frame}{How to check abstract semantics versus concrete?}
   \centering
-  Compare to real-world executions of the functions being modeled!
-
-  \includegraphics[width=.15\textwidth]{intel_bx80619i73970x_core_i7_extreme_i7_3970x_908772}
+  Compare to \alert{real-world} executions of the functions being modeled!
+  \vfill
   \begin{equation}
     \sigma\absTransition\sigma'\land\gamma(\sigma)\concTransition s'\implies\alpha(s')=\sigma' \label{eq:validation}
   \end{equation}
@@ -136,17 +137,10 @@
   \end{tabular}
 \end{frame}
 
-\begin{frame}{Challenges}
+\begin{frame}{Results of Validation}{Some Discoveries}
   \begin{outline}
-    \1 Implementation quirks
-      \2 Concrete implementation of \inlineasm{__cxa_begin_catch} takes absolute value of negative handler counts supplied to it before incrementing that value
-      \2 \inlineasm{__cxa_rethrow} decreases $\handlerCount$ magnitude by one, then inverts sign; if the magnitude is 0, it is unchanged
-    \1 Not all arbitrary concrete states constructible
-      \2 Cannot do fully arbitrary memory manipulation without additional memory allocation/deallocation; affects
-        \3 Exception type info
-        \3 Linked list $\caught$ of caught exceptions
-    \1 \inlineasm{_Unwind_Resume} does not direct control flow to expected landing pad
-      \2 Prevented validation of correct output \gls{ip} (\rip)
+      \1 Concrete implementation of \inlineasm{__cxa_begin_catch} takes absolute value of negative handler counts supplied to it before incrementing that value
+      \1 \inlineasm{__cxa_rethrow} decreases $\handlerCount$ magnitude by one, then inverts sign; if the magnitude is 0, it is unchanged
   \end{outline}
 \end{frame}
 
@@ -182,9 +176,6 @@
     \midrule
     {\thead{Groups}} & {\thead{Bin Count}} & {\thead{Covered Insts}} & {\thead{Unwind\\Edges}} & {\thead{Unique\\Throws}} & {\thead{Caught\\Throws}} & {\thead{Time/\si\second}} & {\thead{Inst Diff}} \\
     \midrule
-    \multicolumn{7}{c}{\vdots} & \vdots \\
-    Cups & 163/164 & 317137 & 3938 & 33 & 0 & 6811 & -9 \\
-    \multicolumn{7}{c}{\vdots} & \vdots \\
     Totals & \glssymbol{eicfg-bin-success}/341 & 4715806 & 1269649 & 3350 & 2356 & 105809 & 45032 \\
     \bottomrule
   \end{tabular}
@@ -193,12 +184,3 @@
 \begin{frame}{Discussion and Limitations}
   \todo\dots
 \end{frame}
-
-%\begin{frame}{Discussion}{Unit Testing versus Integration Testing}
-%  \begin{outline}
-%    \1 Process of analysis uncovered flaw in symbolic execution \alert{not} found by validation
-%      \2 Terminating functions have the instructions immediately following them counted as executed
-%    \1 Validation of individual steps does not necessarily guarantee validation of the full process!
-%      \2 Instruction coverage counting is based on but happens separately from the symbolic execution
-%  \end{outline}
-%\end{frame}

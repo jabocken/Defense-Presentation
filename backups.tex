@@ -55,3 +55,26 @@
     \end{axis}
   \end{tikzpicture}
 \end{frame}
+
+\begin{comment}
+  % for EICFG validation
+      \1 Not all arbitrary concrete states constructible
+  \2 Cannot do fully arbitrary memory manipulation without additional memory allocation/deallocation; affects
+  \3 Exception type info
+  \3 Linked list $\caught$ of caught exceptions
+  \1 \inlineasm{_Unwind_Resume} does not direct control flow to expected landing pad
+  \2 Prevented validation of correct output \gls{ip} (\rip)
+
+  EWxplaining: 
+  Cups & 163/164 & 317137 & 3938 & 33 & 0 & 6811 & -9 \\
+
+%\begin{frame}{Discussion}{Unit Testing versus Integration Testing}
+%  \begin{outline}
+  %    \1 Process of analysis uncovered flaw in symbolic execution \alert{not} found by validation
+  %      \2 Terminating functions have the instructions immediately following them counted as executed
+  %    \1 Validation of individual steps does not necessarily guarantee validation of the full process!
+  %      \2 Instruction coverage counting is based on but happens separately from the symbolic execution
+  %  \end{outline}
+%\end{frame}
+
+\end{comment}

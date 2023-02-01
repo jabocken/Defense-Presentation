@@ -39,12 +39,11 @@
   \frame\titlepage
 
   \include{intro} % 5 minutes
-%  \include{related} % 5 minutes if at all
   \include{hg} % 10~15 minutes
   \include{eicfg} % 10~15 minutes
   \include{conclusion} % 5 minutes
 
-  \appendix % Not sure if this is really right but oh well, it excludes the sections from the outline which is good
+  \appendix % Not sure if this is really right but oh well, it excludes the sections from the outline which is good, but it also causes a hyperref warning about a "\translate" in a PDF string due to Appendix being a localized name, but there's no visible issues so oh well on that too?
 %  \begin{frame}%[t,allowframebreaks] % t flushes text to top, which I guess is good for bibliographies?
 %    \frametitle{Bibliography}
 %    \printbibliography[heading=none] % sections in frames is a no-no

@@ -122,78 +122,78 @@
 
 \subsection{Formulation}
 
-\begin{frame}{Basics of State}
-  \begin{columns}
-    \column{.35\textwidth}
-    \begin{block}{Main Parts}
-      \begin{outline}[enumerate]
-        \1 \alert{Predicates} on state
-        \1 Structured \alert{memory models}
-      \end{outline}
-    \end{block}
-
-    \column{.65\textwidth}
-    \todo{some filler figure here to look nice}
-  \end{columns}
-\end{frame}
-
-\begin{frame}{State Predicates}
-  \begin{columns}
-    \column{.45\textwidth}
-    \begin{block}{Predicate Breakdown}
-      \begin{outline}
-        \1 Set of \alert{clauses}
-        \1 Clauses model values of individual \alert{state parts}
-        \1 Only holds on state if all clauses hold
-        \1 Also indicates next instruction to evaluate!
-      \end{outline}
-    \end{block}
-
-    \column{.55\textwidth}
-    \begin{example}[Predicate]
-      \todo{taking from dissertation}
-    \end{example}
-  \end{columns}
-\end{frame}
-
-\begin{frame}{Memory Models}
-  \begin{columns}
-    \column{.425\textwidth}
-    \begin{block}{What are they?}
-      \begin{outline}
-        \1 \alert{Forest} structure of \alert{memory regions}
-        \1 Different arrangements for different possible \alert{relations}
-          \2 \alert{Aliasing}
-          \2 \alert{Separation}
-          \2 \alert{Enclosure}
-        \1 Only holds if state matches
-      \end{outline}
-    \end{block}
-
-    \column{.575\textwidth}
-    \begin{example}[Memory Model]
-      \todo{taking from dissertation}
-    \end{example}
-  \end{columns}
-\end{frame}
-
-\begin{frame}{Nondeterminism}
-  \begin{columns}
-    \column{.4\textwidth}
-    \begin{block}{Why?}
-      \begin{outline}
-        \1 Most aliasing is \alert{potential}
-        \1 Want to model all possibilities
-        \1 Also want to model control flow!
-      \end{outline}
-    \end{block}
-
-    \column{.6\textwidth}
-    \begin{example}[Nondeterminism]
-      \todo{taking from dissertation}
-    \end{example}
-  \end{columns}
-\end{frame}
+%\begin{frame}{Basics of State}
+%  \begin{columns}
+%    \column{.35\textwidth}
+%    \begin{block}{Main Parts}
+%      \begin{outline}[enumerate]
+%        \1 \alert{Predicates} on state
+%        \1 Structured \alert{memory models}
+%      \end{outline}
+%    \end{block}
+%
+%    \column{.65\textwidth}
+%    \todo{some filler figure here to look nice}
+%  \end{columns}
+%\end{frame}
+%
+%\begin{frame}{State Predicates}
+%  \begin{columns}
+%    \column{.45\textwidth}
+%    \begin{block}{Predicate Breakdown}
+%      \begin{outline}
+%        \1 Set of \alert{clauses}
+%        \1 Clauses model values of individual \alert{state parts}
+%        \1 Only holds on state if all clauses hold
+%        \1 Also indicates next instruction to evaluate!
+%      \end{outline}
+%    \end{block}
+%
+%    \column{.55\textwidth}
+%    \begin{example}[Predicate]
+%      \todo{taking from dissertation}
+%    \end{example}
+%  \end{columns}
+%\end{frame}
+%
+%\begin{frame}{Memory Models}
+%  \begin{columns}
+%    \column{.425\textwidth}
+%    \begin{block}{What are they?}
+%      \begin{outline}
+%        \1 \alert{Forest} structure of \alert{memory regions}
+%        \1 Different arrangements for different possible \alert{relations}
+%          \2 \alert{Aliasing}
+%          \2 \alert{Separation}
+%          \2 \alert{Enclosure}
+%        \1 Only holds if state matches
+%      \end{outline}
+%    \end{block}
+%
+%    \column{.575\textwidth}
+%    \begin{example}[Memory Model]
+%      \todo{taking from dissertation}
+%    \end{example}
+%  \end{columns}
+%\end{frame}
+%
+%\begin{frame}{Nondeterminism}
+%  \begin{columns}
+%    \column{.4\textwidth}
+%    \begin{block}{Why?}
+%      \begin{outline}
+%        \1 Most aliasing is \alert{potential}
+%        \1 Want to model all possibilities
+%        \1 Also want to model control flow!
+%      \end{outline}
+%    \end{block}
+%
+%    \column{.6\textwidth}
+%    \begin{example}[Nondeterminism]
+%      \todo{taking from dissertation}
+%    \end{example}
+%  \end{columns}
+%\end{frame}
 
 \begin{frame}{Base Algorithm}
   \begin{outline}[enumerate]
@@ -247,46 +247,31 @@
 \end{frame}
 
 % Fragile was needed with the newcolumn being inside the frame but moving it out fixed that
-\newcolumntype{C}[1]{>{\centering\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
-\begin{frame}{Case Study Statistics Summary (Binaries)}
+\begin{frame}{Case Study Statistics Summary}
   \centering
-  \begin{tabular}{lC{4.8ex}@{$=$}C{4.8ex}@{$+$}C{2.4ex}@{$+$}C{2.4ex}@{$+$}rrrrrrr}
+  \begin{tabular}{l
+      S[table-format=4]@{$=$}
+      S[table-format=4]@{$+$}
+      S[table-format=2]@{$+$}
+      S[table-format=2]@{$+$}
+      S[table-format=1]
+      S[table-format=6]
+      S[table-format=6]
+      S[table-format=2]
+      S[table-format=3]
+      S[table-format=3]
+      r}
     \toprule
-    \thead{Directory} & \multicolumn{5}{c}{} & {\thead{Instrs.}} & {\thead{Symbolic\\States}} & {\thead{A}} & {\thead{B}} & {\thead{C}} & \thead{Time/\\h:m:s} \\
+    \thead{Binary Target Type} & {\thead{Total}} & {\thead{$w$}} & {\thead{$x$}} & {\thead{$y$}} & {\thead{$z$}} & {\thead{Instrs.}} & {\thead{Symbolic\\States}} & {\thead{A}} & {\thead{B}} & {\thead{C}} & \thead{Time/\\h:m:s} \\
     \midrule
-    \texttt{bin} & 15 & 12 & 2 & 1 & 0 & 6751 & 6829 & 21 & 19 & 0 & 0:15:54 \\
-    \texttt{xen/bin} & 17 & 7 & 1 & 8 & 1 & 2433 & 2468 & 8 & 3 & 3 & 0:01:17 \\
-    \texttt{libexec} & 1 & 1 & 0 & 0 & 0 & 82 & 87 & 1 & 0 & 0 & 0:00:10 \\
-    \texttt{sbin} & 30 & 25 & 1 & 4 & 0 & 8858 & 9178 & 26 & 4 & 8 & 0:18:39 \\
-    \midrule
-    Total & \glssymbol{bin-total} & \glssymbol{bin-success} & 3 & 13 & 1 & 18\,124 & 18\,562 & 56 & 26 & 11 & 0:35:59 \\
+    Programs &  \glsentrysymbol{bin-total} & \glsentrysymbol{bin-success} & 3 & 13 & 1 & 18124 & 18562 & 56 & 26 & 11 & 0:35:59 \\
+    Library Functions & \glsentrysymbol{lib-func-total} & \glsentrysymbol{lib-func-success} & 32 & 0 &  \glsentrysymbol{lib-func-timeout} & 381647 & 391524 & 1 & 244 & 720 & 17:35:42 \\
     \bottomrule
   \end{tabular}\\
   \begin{tabular}{rcl rcl rcl}
-    \multicolumn{9}{c}{$w+x+y+z$: $w$ lifted, $x$ unprovable return address, $y$ concurrency, $z$ timeout} \\
+    \multicolumn{9}{c}{$w$ lifted, $x$ unprovable return address, $y$ concurrency, $z$ timeout} \\
     A &=& Resolved indirection & B &=& Unresolved jump(s) & C &=& Unresolved call(s) \\
   \end{tabular}
-\end{frame}
-
-\begin{frame}{Case Study Statistics Summary (Library Functions)}
-  \centering
-  \begin{tabular}{lC{4.8ex}@{$=$}C{4.8ex}@{$+$}C{2.4ex}@{$+$}C{2.4ex}@{$+$}rrrrrrr}
-    \toprule
-    \thead{Directory} & \multicolumn{5}{c}{} & {\thead{Instrs.}} & {\thead{Symbolic\\States}} & {\thead{A}} & {\thead{B}} & {\thead{C}} & \thead{Time/\\h:m:s} \\
-    \midrule
-    \texttt{lib} & 1907 & 1874 & 29 & 0 & \glssymbol{lib-func-timeout} & 353\,433 & 362\,635 & 1 & 244 & 600 & 15:28:17 \\
-    \texttt{xenfsimage} & 109 & 106 & 3 & 0 & 0 & 17\,184 & 17\,683 & 0 & 0 & 27 & 1:58:36 \\
-    \texttt{dist-packages} & 16 & 16 & 0 & 0 & 0 & 379 & 407 & 0 & 0 & 3 & 0:00:06 \\
-    \texttt{lowlevel} & 119 & 119 & 0 & 0 & 0 & 10\,651 & 10\,799 & 0 & 0 & 90 & 0:08:43 \\
-    \midrule
-    Total & \glssymbol{lib-func-total} & \glssymbol{lib-func-success} & 32 & 0 & \glssymbol{lib-func-timeout} & 381\,647 & 391\,524 & 1 & 244 & 720 & 17:35:42 \\
-    \bottomrule
-  \end{tabular}\\
-  \begin{tabular}{rcl rcl rcl}
-    \multicolumn{9}{c}{$w+x+y+z$: $w$ lifted, $x$ unprovable return address, $y$ concurrency, $z$ timeout} \\
-    A &=& Resolved indirection & B &=& Unresolved jump(s) & C &=& Unresolved call(s) \\
-  \end{tabular}
-
   \hyperlink{timing}{\beamerskipbutton{Timing}}
 \end{frame}
 
