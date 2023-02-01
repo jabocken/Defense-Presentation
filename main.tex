@@ -43,10 +43,12 @@
   \include{eicfg} % 10~15 minutes
   \include{conclusion} % 5 minutes
 
-  \appendix % Not sure if this is really right but oh well
-  \begin{frame}%[t,allowframebreaks] % t flushes text to top, which I guess is good for bibliographies?
-    \frametitle{Bibliography}
-    \printbibliography[heading=none] % sections in frames is a no-no
-  \end{frame}
-  \include{prelim}
+  \appendix % Not sure if this is really right but oh well, it excludes the sections from the outline which is good
+  \begin{comment}
+    \begin{frame}%[t,allowframebreaks] % t flushes text to top, which I guess is good for bibliographies?
+      \frametitle{Bibliography}
+      \printbibliography[heading=none] % sections in frames is a no-no
+    \end{frame}
+  \end{comment}
+  \include{backups}
 \end{document}
