@@ -2,33 +2,18 @@
 
 \subsection{Example}
 
-\begin{comment}
-\begin{frame}[fragile]{Assembly Snippet}
-  \begin{block}{32-bit \gls{x86} for display purposes}
-    \begin{lstlisting}[style=x64,gobble=6]
-      0x0 : 3dc3000000    cmp  eax,c3 |\label{hg-example-cmp}|
-      0x5 : 0f8718000000  ja   1c     |\label{hg-example-ja}|
-      0xb : 8b0485__a___  mov  eax,DWORD PTR [eax*4+a] |\label{hg-example-jump-table-read}|
-      0x12: 8907          mov  DWORD PTR [edi],eax |\label{hg-example-mov1}|
-      0x14: c70601000000  mov  DWORD PTR [esi],1   |\label{hg-example-mov2}|
-      0x1a: ff27          jmp  DWORD PTR [edi]     |\label{hg-example-indirect-jump}|
-    \end{lstlisting}
-  \end{block}
-\end{frame}
-\end{comment}
-
 \begin{frame}[fragile]{Full Example}
   \todo{fixing up still}
   \begin{columns}
     \column{.5\textwidth}
     \begin{block}{32-bit \gls{x86} for display purposes}
       \begin{lstlisting}[style=x64,gobble=8]
-        0x0 : cmp  eax,c3 |\label{hg-example-cmp}|
-        0x5 : ja   1c     |\label{hg-example-ja}|
-        0xb : mov  eax,DWORD PTR [eax*4+a] |\label{hg-example-jump-table-read}|
-        0x12: mov  DWORD PTR [edi],eax |\label{hg-example-mov1}|
-        0x14: mov  DWORD PTR [esi],1   |\label{hg-example-mov2}|
-        0x1a: jmp  DWORD PTR [edi]     |\label{hg-example-indirect-jump}|
+        0x0 : cmp eax,c3 |\label{hg-example-cmp}|
+        0x5 : ja  1c     |\label{hg-example-ja}|
+        0xb : mov eax,DWORD PTR [eax*4+a] |\label{hg-example-jump-table-read}|
+        0x12: mov DWORD PTR [edi],eax |\label{hg-example-mov1}|
+        0x14: mov DWORD PTR [esi],1   |\label{hg-example-mov2}|
+        0x1a: jmp DWORD PTR [edi]     |\label{hg-example-indirect-jump}|
       \end{lstlisting}
     \end{block}
 
@@ -37,8 +22,7 @@
     \column{.45\textwidth}
     % combination insser sep/minimum size ensures all nodes have exactly same size
     \tikzset{vertex/.style = {shape=circle,draw,minimum size=0.7cm}} % inner sep=0pt, <- what does this even do?
-    \tikzset{edge/.style = {->,> = latex'}}
-    \begin{tikzpicture}[scale=0.5]
+    \begin{tikzpicture}[scale=0.5] % if time permits play around with setting -> here
       \node[vertex]    (0)     at  (0,0)  {$\mathtt{0}$};
       \node[vertex]    (5)     at  (1.5,0)  {$\mathtt{5}$};
       \node[vertex]    (1c)    at  (3,.5) {$\mathtt{1c}$};
@@ -249,7 +233,7 @@
 \end{frame}
 
 % Fragile was needed with the newcolumn being inside the frame but moving it out fixed that
-\begin{frame}{Case Study Statistics Summary}
+\begin{frame}[label=hg-results]{Case Study Statistics Summary}
   \centering
   \begin{tabular}{l
       S[table-format=4]@{$=$}

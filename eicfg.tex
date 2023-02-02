@@ -7,11 +7,10 @@
   % Trying to use \only/\uncover/etc. with the graph paths directly doesn't work so need to mess with the styles
   \only<1>{
     \tikzstyle{unwind}=[draw=none]
-    \tikzstyle{interproc}=[draw=none]
-    \tikzstyle{bad}=[]
-    \tikzstyle{good}=[]
     \tikzstyle{backdraw}=[]
   }
+  \only<-2>{\tikzstyle{good}=[]}
+  \only<-3>{\tikzstyle{bad}=[]}
   \begin{tikzpicture}
     \graph[
       grow down=1.25cm,
@@ -45,14 +44,11 @@
       bEnd1[backdraw] ->[unwind] bar'; bEnd' ->[unwind] catch;
     };
   \end{tikzpicture}
-  \uncover<2->{
       \begin{description}[leftmargin=\widthof{Green triangle}]
-      \item[Red dashes] normal interprocedural control flow
-      \item[Blue dots] \alert{unwinding} edges
-      \item[Green triangle] successful termination
-      \item[Blue triangle] exceptional termination
+      \item<2->[Red dashes] \alert{unwinding} edges
+      \item<3->[Green triangle] successful termination
+      \item<4->[Red triangle] exceptional termination
     \end{description}
-  }
 \end{frame}
 
 \begin{frame}{State of the Art}
@@ -76,27 +72,27 @@
 
 \begin{frame}{Generation}{What's the special bit?}
   \begin{outline}[enumerate]
-    \1 Extract $\landingpadtable$ from binary
-    \1 \alert{Symbolically execute} the binary
+    \1<+-> Extract $\landingpadtable$ from binary
+    \1<+-> \alert{Symbolically execute} the binary
       \2 Start from \gls{ip} with initial \alert{symbolic state}
       \2 Dissassemble instruction at that \gls{ip}
       \2 Transform current state (including \gls{ip}) based on semantics of instruction (adds edge(s) to \gls{eicfg})
       \2 Repeat with resulting state(s) until termination conditions encountered
-    \1 \alert{During 2.3, when encountering exceptional \gls{abi} calls, model them!}
+    \1<+-> \alert{During 2.3, when encountering exceptional \gls{abi} calls, model them!}
   \end{outline}
 \end{frame}
 
 \begin{frame}{Modeling Exceptional \Glsxtrshort{abi} Calls}{Specification source: \citeurl{cxxEhAbi}}
   \begin{block}{\inlineasm{__cxa_throw}}
     \begin{outline}[enumerate]
-      \1 If current \gls{ip} is in $\landingpadtable$ (and current exception type matches):
+      \1<+-> If current \gls{ip} is in $\landingpadtable$ (and current exception type matches):
         \2 Jump to target and stop unwinding
         \2 Add corresponding edge to \gls{eicfg}
-      \1 Otherwise, unwind:
+      \1<+-> Otherwise, unwind:
         \2 Pop off current function call stack frame
         \2 Jump to that frame's stored return address
         \2 Add corresponding edge to \gls{eicfg}
-      \1 Repeat until no more stack frames are available, then terminate (\alert{unhandled exception})
+      \1<+-> Repeat until no more stack frames are available, then terminate (\alert{unhandled exception})
     \end{outline}
   \end{block}
 \end{frame}
@@ -115,10 +111,10 @@
 
 \begin{frame}{Process}
   \begin{outline}[enumerate]
-    \1 \alert{Fuzz} the \alert{abstract} states to get set of \alert{inputs} (we generated \glssymbol{fuzz-count})
-    \1 Execute abstract function models to get abstract \alert{outputs}
-    \1 \alert{Concretize}, inject abstract inputs into crafted programs using \alert{test harness} (\gls{gdb} used to set breakpoints, overwrite and view concrete program state)
-    \1 Check \alert{abstracted} \alert{concrete} outputs against abstract outputs for corresponding inputs
+    \1<+-> \alert{Fuzz} the \alert{abstract} states to get set of \alert{inputs} (we generated \glssymbol{fuzz-count})
+    \1<+-> Execute abstract function models to get abstract \alert{outputs}
+    \1<+-> \alert{Concretize}, inject abstract inputs into crafted programs using \alert{test harness} (\gls{gdb} used to set breakpoints, overwrite and view concrete program state)
+    \1<+-> Check \alert{abstracted} \alert{concrete} outputs against abstract outputs for corresponding inputs
   \end{outline}
 \end{frame}
 
