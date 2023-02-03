@@ -1,4 +1,12 @@
 \section{Exceptional Interprocedural Control Flow Graphs}
+\begin{frame}{Breakdown of Contribution}
+  \begin{outline}[enumerate] % Don't think this environment works with <+-> directly
+    \1<+-> \alert{Formal abstract model} of \gls{eh} \gls{abi} functions
+    \1<+-> \alert{Algorithm} using model for \gls{cfr}
+    \1<+-> \alert{Validation} of the model
+    \1<+-> \alert{Evaluation} showing scalability and increased coverage
+  \end{outline}
+\end{frame}
 
 \subsection{Example}
 \begin{frame}{Returning to Example}
@@ -44,16 +52,24 @@
       bEnd1[backdraw] ->[unwind] bar'; bEnd' ->[unwind] catch;
     };
   \end{tikzpicture}
-      \begin{description}[leftmargin=\widthof{Green triangle}]
-      \item<2->[Red dashes] \alert{unwinding} edges
-      \item<3->[Green triangle] successful termination
-      \item<4->[Red triangle] exceptional termination
-    \end{description}
+  \vfill
+  \begin{tabular}{rl}
+    \uncover<2->{\textcolor{red}{Red dashes} & \alert{unwinding} edges \\}
+    \uncover<3->{\textcolor{green}{Green triangle} & successful termination \\}
+    \uncover<4->{\textcolor{red}{Red triangle} & exceptional termination}
+  \end{tabular}
 \end{frame}
 
 \begin{frame}{State of the Art}
   \begin{outline}
     \1 Existing tools do not model binary-level exceptional control flow!
+    \begin{center}
+      \includegraphics[width=1cm]{GHIDRA_1}
+      \hspace{1cm}
+      \includegraphics[width=1cm]{ida}
+      \hspace{1cm}
+      \includegraphics[width=1cm]{ninja}
+    \end{center}
     \1 Closest: IECFGs, which analyze \gls{cpp} source
   \end{outline}
 \end{frame}
@@ -62,10 +78,6 @@
 \begin{frame}{Basics of State}
   \begin{outline}
     \1 Focused on \alert{exceptional state} and \alert{function calls}
-      \2 Registers
-      \2 Program stack
-      \2 \alert{Caught} exceptions
-      \2 \alert{Uncaught} exceptions in transit
     \1 Leaves out parts that can be overapproximated
       \2 Produced stack only contains return addresses!
     \1 Also requires static components from binary such as the \alert{landing pad table ($\landingpadtable$)}
@@ -77,10 +89,10 @@
   \begin{outline}[enumerate]
     \1<+-> Extract $\landingpadtable$ from binary
     \1<+-> \alert{Symbolically execute} the binary
-      \2 Start from \gls{ip} with initial \alert{symbolic state}
-      \2 Dissassemble instruction at that \gls{ip}
-      \2 Transform current state (including \gls{ip}) based on semantics of instruction (adds edge(s) to \gls{eicfg})
-      \2 Repeat with resulting state(s) until termination conditions encountered
+      \2<+-> Start from \glsxtrfull{ip} with initial \alert{symbolic state}
+      \2<+-> Dissassemble instruction at that \gls{ip}
+      \2<+-> Transform current state (including \gls{ip}) based on semantics of instruction (adds edge(s) to \gls{eicfg})
+      \2<+-> Repeat with resulting state(s) until termination conditions encountered
     \1<+-> \alert{During 2.3, when encountering exceptional \gls{abi} calls, model them!}
   \end{outline}
 \end{frame}
@@ -88,13 +100,13 @@
 \begin{frame}{Modeling Exceptional \Glsxtrshort{abi} Calls}{Specification source: \citeurl{cxxEhAbi}}
   \begin{block}{\inlineasm{__cxa_throw}}
     \begin{outline}[enumerate]
-      \1<+-> If current \gls{ip} is in $\landingpadtable$ (and current exception type matches):
-        \2 Jump to target and stop unwinding
-        \2 Add corresponding edge to \gls{eicfg}
+      \1<+-> If current \gls{ip} is in $\landingpadtable$:
+        \2<+-> Jump to target and stop unwinding
+        \2<+-> Add corresponding edge to \gls{eicfg}
       \1<+-> Otherwise, unwind:
-        \2 Pop off current function call stack frame
-        \2 Jump to that frame's stored return address
-        \2 Add corresponding edge to \gls{eicfg}
+        \2<+-> Pop off current function call stack frame
+        \2<+-> Jump to that frame's stored return address
+        \2<+-> Add corresponding edge to \gls{eicfg}
       \1<+-> Repeat until no more stack frames are available, then terminate (\alert{unhandled exception})
     \end{outline}
   \end{block}
@@ -103,13 +115,18 @@
 \subsection{Validation}
 \begin{frame}{How to check abstract semantics versus concrete?}
   \centering
-  Compare to \alert{real-world} executions of the functions being modeled!
+  Compare to \alert<+>{real-world} executions of the functions being modeled!
   \vfill
   \begin{equation}
-    \sigma\absTransition\sigma'\land\gamma(\sigma)\concTransition s'\implies\alpha(s')=\sigma' \label{eq:validation}
+    \alert<+>{\sigma\absTransition\sigma'}
+    \land
+    \alert<+>{\gamma(\sigma)\concTransition s'}
+    \implies
+    \alert<+>{\alpha(s')=\sigma'}
+    \label{eq:validation}
   \end{equation}
   \vfill
-  Requires real-world crafted programs for the functions though\dots
+  Requires real-world \alert<+>{crafted programs} for the functions though\dots
 \end{frame}
 
 \begin{frame}{Process}
@@ -143,18 +160,18 @@
   \end{outline}
 \end{frame}
 
-\subsection{Results}
+\subsection{Evaluation}
 \begin{frame}{Case Studies}
   \begin{outline}
-    \1 Tested \glssymbol{total-bins} programs from a variety of sources
+    \1<+-> Tested \glssymbol{total-bins} programs from a variety of sources
       \2 Publicly available \gls{nasa} tools
       \2 Programs and libraries from \gls{xen} hypervisor
       \2 Various printing-related and document type conversion tools available on Linux
       \2 Miscellaneous other programs
-    \1 Combination of \gls{c}, \gls{cpp}, even \gls{fortran}
-    \1 Special handling:
-      \2 Treated all function symbol addresses in binaries as potential starting \glspl{ip}
-      \2 Did two runs, one with \gls{eh} support, one without; compared results
+    \1<+-> Combination of \gls{c}, \gls{cpp}, even \gls{fortran}
+    \1<+-> Special handling:
+      \2<+-> Treated all function symbol addresses in binaries as potential starting \glspl{ip}
+      \2<+-> Did two runs, one with \gls{eh} support, one without; compared results
   \end{outline}
 \end{frame}
 
@@ -173,7 +190,7 @@
     \toprule
     & \multicolumn{6}{c}{\thead{Absolute Numbers}} & {\thead{Baseline\\Comparison}} \\
     \midrule
-    {\thead{Groups}} & {\thead{Bin Count}} & {\thead{Covered Insts}} & {\thead{Unwind\\Edges}} & {\thead{Unique\\Throws}} & {\thead{Caught\\Throws}} & {\thead{Time/\si\second}} & {\thead{Inst Diff}} \\
+     & {\thead{Bin Count}} & {\thead{Covered\\Insts}} & {\thead{Unwind\\Edges}} & {\thead{Unique\\Throws}} & {\thead{Caught\\Throws}} & {\thead{Time/\si\second}} & {\thead{Inst Diff}} \\
     \midrule
     Totals & \glssymbol{eicfg-bin-success}/341 & 4715806 & 1269649 & 3350 & 2356 & 105809 & 45032 \\
     \bottomrule
@@ -181,8 +198,25 @@
 \end{frame}
 
 \begin{frame}{Discussion and Limitations}
-  \begin{outline}
-    \1 Even here not all indirections are resolvable
-    \1 How to deal with that?
-  \end{outline}
+  \begin{columns}
+    \column{.35\textwidth}
+    \begin{block}{Uses}
+      \begin{outline}
+        \1 Strengthening static analyses
+        \1 Improving decompilation
+      \end{outline}
+    \end{block}
+
+    \pause
+    \column{.55\textwidth}
+    \begin{block}{Limitations}
+      \begin{outline}
+        \1 Contextuality for some indirections still an issue
+        \1 No concurrency support here either
+          \2 Thread-spawning functions treated as single-threaded
+        \1 Even here not all indirections are resolvable
+          \2 How to deal with that?
+      \end{outline}
+    \end{block}
+  \end{columns}
 \end{frame}
