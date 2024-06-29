@@ -16,3 +16,4 @@ cleanext:
 	# tex file being built, for bbl I don't know why).
 	rm -f *.glstex
 	rm -f *.bbl
+	rm -f *-SAVE-ERROR

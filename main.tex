@@ -18,6 +18,9 @@
 \usepackage{makecell}              % For table heading cells and cells with line breaks
 \usepackage{threeparttable}        % For tables with notes
 
+% Necessary due to some breakage with \thead/S table column interaction 
+\WithSuffix\newcommand\thead*[1]{\thead{#1}}
+
 \usepackage[
   citestyle=authoryear-icomp, % Author-year style better for beamer bibliographies
   maxbibnames=99 % Avoids `et al.` in bibliography
