@@ -18,8 +18,8 @@
 \usepackage{makecell}              % For table heading cells and cells with line breaks
 \usepackage{threeparttable}        % For tables with notes
 
-% Necessary due to some breakage with \thead/S table column interaction 
-\WithSuffix\newcommand\thead*[1]{\thead{#1}}
+% Was necessary due to some breakage with \thead/S table column interaction but that bug seems fixed
+% \WithSuffix\newcommand\thead*[1]{\thead{#1}}
 
 \usepackage[
   citestyle=authoryear-icomp, % Author-year style better for beamer bibliographies
@@ -44,15 +44,5 @@
 \begin{document}
   \frame\titlepage
 
-  \include{intro} % 5 minutes
-  \include{hg} % 10~15 minutes
-  \include{eicfg} % 10~15 minutes
-  \include{conclusion} % 5 minutes
-
-  \appendix % Not sure if this is really right but oh well, it excludes the sections from the outline which is good, but it also causes a hyperref warning about a "\translate" in a PDF string due to Appendix being a localized name, but there's no visible issues so oh well on that too?
-%  \begin{frame}%[t,allowframebreaks] % t flushes text to top, which I guess is good for bibliographies?
-%    \frametitle{Bibliography}
-%    \printbibliography[heading=none] % sections in frames is a no-no
-%  \end{frame}
-  \include{backups}
+  \include{eicfg} % 25 minutes?
 \end{document}

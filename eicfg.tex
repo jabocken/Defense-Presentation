@@ -1,4 +1,3 @@
-\section{Exceptional Interprocedural Control Flow Graphs}
 \begin{frame}{Breakdown of Contribution}
   \begin{outline}[enumerate] % Don't think this environment works with <+-> directly
     \1<+-> \alert{Formal abstract model} of \gls{eh} \gls{abi} functions
@@ -8,7 +7,7 @@
   \end{outline}
 \end{frame}
 
-\subsection{Example}
+\section{Example}
 \begin{frame}{Returning to Example}
   \centering
   \tikzstyle{backdraw}=[< draw] % Had to reenable bEnd1's ability to draw outgoing edges here as setting it on the edge itself didn't work.
@@ -74,7 +73,7 @@
   \end{outline}
 \end{frame}
 
-\subsection{Formulation}
+\section{Formulation}
 \begin{frame}{Basics of State}
   \begin{outline}
     \1 Focused on \alert{exceptional state} and \alert{function calls}
@@ -112,7 +111,7 @@
   \end{block}
 \end{frame}
 
-\subsection{Validation}
+\section{Validation}
 \begin{frame}{How to check abstract semantics versus concrete?}
   \centering
   Compare to \alert<+>{real-world} executions of the functions being modeled!
@@ -160,7 +159,7 @@
   \end{outline}
 \end{frame}
 
-\subsection{Evaluation}
+\section{Evaluation}
 \begin{frame}{Case Studies}
   \begin{outline}
     \1<+-> Tested \glssymbol{total-bins} programs from a variety of sources
@@ -188,9 +187,9 @@
       S[table-format=5] % inst coverage differential
     }
     \toprule
-    & \multicolumn{6}{c}{\thead{Absolute Numbers}} & {\thead*{Baseline\\Comparison}} \\
+    & \multicolumn{6}{c}{\thead{Absolute Numbers}} & {\thead{Baseline\\Comparison}} \\
     \midrule
-     & {\thead*{Bin Count}} & {\thead*{Covered\\Insts}} & {\thead*{Unwind\\Edges}} & {\thead*{Unique\\Throws}} & {\thead*{Caught\\Throws}} & {\thead*{Time/\si\second}} & {\thead*{Inst Diff}} \\
+     & {\thead{Bin Count}} & {\thead{Covered\\Insts}} & {\thead{Unwind\\Edges}} & {\thead{Unique\\Throws}} & {\thead{Caught\\Throws}} & {\thead{Time/\si\second}} & {\thead{Inst Diff}} \\
     \midrule
     Totals & \glssymbol{eicfg-bin-success}/341 & 4715806 & 1269649 & 3350 & 2356 & 105809 & 45032 \\
     \bottomrule
