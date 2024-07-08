@@ -1,9 +1,9 @@
 \documentclass[aspectratio=169]{beamer}
 
 \usepackage[utf8]{inputenc}  % if you want to include UTF-8 characters in your source when not using XeLaTeX or LuaTeX; also avoids biber warnings when using accents and stuff
-\RequirePackage[T1]{fontenc} % Fuller font encoding
-\RequirePackage{lmodern}     % Nice vector fonts
-\RequirePackage[tracking]{microtype}   % Has a subtle but definite effect; most of the features aren't supported when using XeLaTeX, so if you don't need the fancy font selection from that stick with fontenc+lmodern.
+\usepackage[T1]{fontenc} % Fuller font encoding
+\usepackage{lmodern}     % Nice vector fonts
+\usepackage[tracking]{microtype}   % Has a subtle but definite effect; most of the features aren't supported when using XeLaTeX, so if you don't need the fancy font selection from that stick with fontenc+lmodern.
 
 \usepackage{relsize}               % Necessary for \gls{cpp} formatting
 \usepackage{comment}               % To comment out chunks of text
@@ -44,5 +44,6 @@
 \begin{document}
   \frame\titlepage
 
-  \include{eicfg} % 25 minutes?
+  \include{intro} % 5 minutes
+  \include{eicfg} % 15 minutes
 \end{document}

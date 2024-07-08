@@ -1,4 +1,4 @@
-\begin{frame}{Breakdown of Contribution}
+\begin{frame}{Breakdown of Contributions}
   \begin{outline}[enumerate] % Don't think this environment works with <+-> directly
     \1<+-> \alert{Formal abstract model} of \gls{eh} \gls{abi} functions
     \1<+-> \alert{Algorithm} using model for \gls{cfr}
@@ -8,7 +8,8 @@
 \end{frame}
 
 \section{Example}
-\begin{frame}{Returning to Example}
+
+\begin{frame}{Example CFG to \Glsxtrshort{eicfg}}
   \centering
   \tikzstyle{backdraw}=[< draw] % Had to reenable bEnd1's ability to draw outgoing edges here as setting it on the edge itself didn't work.
   % Trying to use \only/\uncover/etc. with the graph paths directly doesn't work so need to mess with the styles
@@ -84,7 +85,7 @@
   \end{outline}
 \end{frame}
 
-\begin{frame}{Generation}{What's the special bit?}
+\begin{frame}{Generation}{What's the special sauce?}
   \begin{outline}[enumerate]
     \1<+-> Extract $\landingpadtable$ from binary
     \1<+-> \alert{Symbolically execute} the binary
@@ -178,20 +179,21 @@
   \centering
   \begin{tabular}{l
       r% S[table-format=3]
-      S[table-format=7] % total inst count
-      S[table-format=7]
+      S[table-format=4] % total inst count
+      S[table-format=6]
       S[table-format=4]
       S[table-format=4]
-      S[table-format=6.0]
+      S[table-format=1.2]
+      S[table-format=2] % average memory usage in gigabytes
       |
       S[table-format=5] % inst coverage differential
     }
     \toprule
-    & \multicolumn{6}{c}{\thead{Absolute Numbers}} & {\thead{Baseline\\Comparison}} \\
+    & \multicolumn{7}{c}{\thead{Absolute Numbers}} & {\thead{Baseline\\Comparison}} \\
     \midrule
-     & {\thead{Bin Count}} & {\thead{Covered\\Insts}} & {\thead{Unwind\\Edges}} & {\thead{Unique\\Throws}} & {\thead{Caught\\Throws}} & {\thead{Time/\si\second}} & {\thead{Inst Diff}} \\
+     & {\thead{Bin Count}} & {\thead{Covered\\Insts/\si{K}}} & {\thead{Unwind\\Edges}} & {\thead{Unique\\Throws}} & {\thead{Caught\\Throws}} & {\thead{Time\\(\si\hour)}} & {\thead{Avg.\\Mem\\(\si{\gibi\byte})}} & {\thead{Inst Diff}} \\
     \midrule
-    Totals & \glssymbol{eicfg-bin-success}/341 & 4715806 & 1269649 & 3350 & 2356 & 105809 & 45032 \\
+    Totals & \glssymbol{eicfg-bin-success}/341 & 4089 & 484274 & 2574 & 1814 & 5.96 & 30 & 36200 \\
     \bottomrule
   \end{tabular}
 \end{frame}
