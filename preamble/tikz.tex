@@ -11,13 +11,8 @@
 
 \tikzset{>=stealth}
 
-\tikzstyle{ret}=[
-  isosceles triangle,
-  shape border rotate=90,
-  isosceles triangle apex angle=75
-]
-\tikzstyle{landing}=[rectangle] % wanted to use inverted triangle but it just does not look good when containing text
-\tikzstyle{unwind}=[dashed,red]
-\tikzstyle{interproc}=[dotted] % No red, Freek doesn't think it's worth focusing on; using red for bad/unwinding instead and changing focus so unwind is dashed
+\tikzstyle{landing}=[] % wanted to use inverted triangle but it just does not look good when containing text
+\tikzstyle{regular}=[->,line width=1.2pt]
+\tikzstyle{unwind}=[->,dashed] % leaving out red for presentation
 \tikzstyle{bad}=[red,fill=red,text=white]
 \tikzstyle{good}=[green,fill=green,text=black]
