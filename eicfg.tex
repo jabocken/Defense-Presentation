@@ -88,7 +88,7 @@
     \begin{block}{State parts validated}
       \begin{outline}
         \1 in/out registers
-        \1 type of caught exception
+        \1 type of current exception
         \1 exception handler count
         \1 count of uncaught exceptions
         \1 partial stack of caught exceptions
@@ -108,7 +108,7 @@
 \begin{frame}{Case Studies}
   \begin{outline}
     \1<+-> Tested \glssymbol{total-bins} programs from a variety of sources
-    \2 Publicly available \gls{nasa} tools
+    \2 Publicly available \glsxtrshort{nasa} tools
     \2 Programs and libraries from \gls{xen} hypervisor
     \2 Various printing-related and document type conversion tools available on Linux
     \2 Miscellaneous other programs
@@ -150,10 +150,10 @@
     \column{.54\textwidth}
     \begin{block}{Limitations}
       \begin{outline}
-        \1 Contextuality for some indirections still an issue
-        \1 No concurrency support here either
+        \1 No concurrency support
         \2 Thread-spawning functions treated as single-threaded
         \1 Even here not all indirections are resolvable
+        \2 Contextuality versus scalability
         \2 How to deal with that?
       \end{outline}
     \end{block}
